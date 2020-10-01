@@ -1,7 +1,6 @@
 package com.github.cc3002.finalreality.model.character;
 
-import com.github.cc3002.finalreality.model.character.player.CharacterClass;
-import com.github.cc3002.finalreality.model.weapon.Weapon;
+
 
 /**
  * This represents a character from the game.
@@ -24,17 +23,23 @@ public interface ICharacter {
   String getName();
 
   /**
-   * Equips a weapon to the character.
+   * Adds this character to the turns queue.
    */
-  void equip(Weapon weapon);
+  void addToQueue();
 
-  /**
-   * Return this character's equipped weapon.
-   */
-  Weapon getEquippedWeapon();
+  boolean equals();
 
-  /**
-   * Returns this character's class.
-   */
-  CharacterClass getCharacterClass();
+
 }
+/**Cambios:
+ * Quitar equip() y su getEquippedWeapon():
+ -Razon:    *Rompe Liskov ya que Enemy no se puede equipar armas, Ademas
+ -Solucion: * getEquippedWeapon() a AbstractPlayerCharacter ya que cada character del player se puede equipar armas
+ * equip() se divide en equipKnife(), equipStaff(), ...con fin en cumplir Single Responsibility Principle.
+ Se implementa dentro de cada clase que extiende AbstractPlayerCharacter
+ * Quitar getCharacterClass:
+ -Razon:    *Rompe Liskov ya que Enemy no tiene atributo CharacterClass y ademas el fin mas probable de
+ este atributo es romper Single Responsibility Principle al atacar y equipar armas
+ -Solucion: *Se elimina atributo characterClass de todas partes y se elimina clase Enum CharacterClass
+ *
+ */
