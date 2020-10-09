@@ -1,26 +1,28 @@
 package com.github.cc3002.finalreality.model.character;
 
-import com.github.DiegoR.finalreality.model.character.enemy.Enemy;
-import com.github.cc3002.finalreality.model.character.player.CharacterClass;
-import com.github.cc3002.finalreality.model.character.player.PlayerCharacter;
+import com.github.cc3002.finalreality.model.character.player.Enemy;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import java.util.concurrent.BlockingQueue;
 
-class EnemyTest extends AbstractCharacterTest {
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-  private static final String ENEMY_NAME = "Goblin";
 
-  @BeforeEach
-  void setUp() {
-    basicSetUp();
-    testCharacters.add(new Enemy(ENEMY_NAME, 10, turns));
-  }
+public class EnemyTest {
+    private static final String ENEMY_NAME = "Goblin";
+    private static final int ENEMY_WEIGHT = 10;
+    protected BlockingQueue<com.github.cc3002.finalreality.model.character.ICharacter> turns;
+    private Enemy testEnemy;
+    @BeforeEach
+    void setUp(){
+        testEnemy=new Enemy(turns, ENEMY_NAME, ENEMY_WEIGHT);
+    }
+    @Test
+    void constructorTest(){
+        var expectedEnemy= new Enemy(turns, ENEMY_NAME, ENEMY_WEIGHT);
+        assertEquals(expectedEnemy, testEnemy);
+        assertEquals(expectedEnemy.hashCode(), testEnemy.hashCode());
+    }
 
-  @Test
-  void constructorTest() {
-    checkConstruction(new Enemy(ENEMY_NAME, 10, turns),
-        testCharacters.get(0),
-        new Enemy(ENEMY_NAME, 11, turns),
-        new PlayerCharacter(ENEMY_NAME, turns, CharacterClass.THIEF));
-  }
 }
