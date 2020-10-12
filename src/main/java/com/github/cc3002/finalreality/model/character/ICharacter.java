@@ -1,7 +1,6 @@
 package com.github.cc3002.finalreality.model.character;
 
-import com.github.cc3002.finalreality.model.character.player.CharacterClass;
-import com.github.cc3002.finalreality.model.weapon.Weapon;
+
 
 /**
  * This represents a character from the game.
@@ -13,28 +12,18 @@ import com.github.cc3002.finalreality.model.weapon.Weapon;
 public interface ICharacter {
 
   /**
-   * Sets a scheduled executor to make this character (thread) wait for {@code speed / 10}
-   * seconds before adding the character to the queue.
-   */
-  void waitTurn();
-
-  /**
    * Returns this character's name.
    */
   String getName();
 
   /**
-   * Equips a weapon to the character.
+   * Adds this character to the turns queue.
    */
-  void equip(Weapon weapon);
+  void addToQueue();
 
   /**
-   * Return this character's equipped weapon.
+   * Sets a scheduled executor to make this character (thread) wait for {@code speed / 10}
+   * seconds before adding the character to the queue.
    */
-  Weapon getEquippedWeapon();
-
-  /**
-   * Returns this character's class.
-   */
-  CharacterClass getCharacterClass();
+  void waitTurn();
 }
