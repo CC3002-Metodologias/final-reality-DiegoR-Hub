@@ -22,16 +22,24 @@ public abstract class AbstractWeapon implements IWeapon {
     this.weight = weight;
   }
 
+  /**
+   * Metodo general para retornar el valor del atributo name de cualquier IWeapon
+   */
   @Override
   public String getName() {
     return this.name;
   }
 
+  /**
+   * Metodo general para retornar el valor del atributo damage de cualquier IWeapon
+   */
   @Override
   public int getDamage() {
     return this.damage;
   }
-
+  /**
+   * Metodo general para retornar el valor del atributo weight de cualquier IWeapon
+   */
   @Override
   public int getWeight() {
     return this.weight;

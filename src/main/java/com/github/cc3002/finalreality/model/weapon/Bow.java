@@ -1,8 +1,15 @@
 package com.github.cc3002.finalreality.model.weapon;
 
 import java.util.Objects;
-
+    /**
+     * La clase que implementa los Bow del juego
+     *
+     */
 public class Bow extends AbstractWeapon {
+    /**
+     * Creates a new Bow with a name, a damage, a weight
+     *
+     */
     public Bow(String name, int damage, int weight) {
         super(name, damage, weight);
     }

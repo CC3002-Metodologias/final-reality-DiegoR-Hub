@@ -4,8 +4,6 @@ import com.github.cc3002.finalreality.model.character.AbstractCharacter;
 import com.github.cc3002.finalreality.model.character.ICharacter;
 import com.github.cc3002.finalreality.model.weapon.IWeapon;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -24,16 +22,13 @@ public class PlayerCharacter extends AbstractCharacter {
     equippedWeapon=null;
   }
 
+  /**
+   * Returns this character's equippedWeapon
+   *
+   */
   public IWeapon getEquippedWeapon() {return this.equippedWeapon;}
 
-  public void addToQueue() {
-    turnsQueue.add(this);
-    scheduledExecutor.shutdown();
-  }
-  public void waitTurn() {
-    scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
-      scheduledExecutor
-              .schedule(this::addToQueue, equippedWeapon.getWeight() / 10, TimeUnit.SECONDS);
-  }
+
+
 
 }

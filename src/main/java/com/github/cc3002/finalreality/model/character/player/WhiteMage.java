@@ -6,6 +6,10 @@ import com.github.cc3002.finalreality.model.weapon.Staff;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 
+/**
+ * La clase que implementa los WhiteMage del juego
+ *
+ */
 public class WhiteMage extends MagePlayerCharacter {
     /**
      * Creates a new character.
@@ -16,9 +20,17 @@ public class WhiteMage extends MagePlayerCharacter {
     public WhiteMage(BlockingQueue<ICharacter> turnsQueue, String name, int mana) {
         super(turnsQueue,name,mana);
     }
+
+    /**
+     * Actualiza el atributo equippedWeapon de WhiteMage a un Staff dado por newStaff
+     *
+     * @param newStaff
+     *      El staff a equipar al WhiteMage
+     */
     public void equipStaff(Staff newStaff){
         this.equippedWeapon=newStaff;
     }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {

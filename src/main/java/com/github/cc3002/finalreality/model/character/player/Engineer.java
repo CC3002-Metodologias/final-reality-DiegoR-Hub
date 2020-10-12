@@ -7,13 +7,15 @@ import com.github.cc3002.finalreality.model.weapon.Knife;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 
+/**
+ * La clase que implementa los Engineer del juego
+ *
+ */
 public class Engineer extends PlayerCharacter {
 
     /**
-     * Creates a new character.
+     * Creates a new Engineer with a name, a weight and the queue
      *
-     * @param name       the character's name
-     * @param turnsQueue the queue with the characters waiting for their turn
      */
     public Engineer(BlockingQueue<ICharacter> turnsQueue, String name) {
         super(turnsQueue,name);
@@ -35,9 +37,18 @@ public class Engineer extends PlayerCharacter {
         return Objects.hashCode(Engineer.class);
     }
 
+    /**
+     * Actualiza el atributo equippedWeapon del Engineer a la Axe newAxe
+     * @param newAxe
+     */
     public void equipAxe(Axe newAxe) {
         this.equippedWeapon=newAxe;
     }
+
+    /**
+     * Actualiza el atributo equippedWeapon del Engineer a la Knife newKnife
+     * @param newKnife
+     */
     public void equipKnife(Knife newKnife) {
         this.equippedWeapon=newKnife;
     }

@@ -6,12 +6,15 @@ import com.github.cc3002.finalreality.model.weapon.Knife;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Date;
 import java.util.concurrent.BlockingQueue;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+    /**
+     * Abstract class containing the tests for the Engineer.
+     *
+     */
 class EngineerTest {
     private Engineer testEngineer;
     private static final String ENGINEER_NAME = "Cid";
@@ -28,18 +31,30 @@ class EngineerTest {
         testAxe=new Axe(AXE_NAME,DAMAGE,WEIGHT);
         testKnife=new Knife(KNIFE_NAME, DAMAGE,WEIGHT);
     }
+
+    /**
+     * Checks that the class' constructor and equals method works properly.
+     */
     @Test
     void constructorTest(){
         var expectedEngineer= new Engineer(turns, ENGINEER_NAME);
         assertEquals(expectedEngineer, testEngineer);
         assertEquals(expectedEngineer.hashCode(), testEngineer.hashCode());
     }
+
+    /**
+     * Chequea que una instancia de la clase Engineer se pueda equipar correctamente una Axe
+     */
     @Test
     public void equipAxeTest() {
         assertNull(testEngineer.getEquippedWeapon());
         testEngineer.equipAxe(testAxe);
         assertEquals(testAxe, testEngineer.getEquippedWeapon());
     }
+
+    /**
+     * Chequea que una instancia de la clase Engineer se pueda equipar correctamente un Knife
+     */
     @Test
     public void equipKnifeTest() {
         assertNull(testEngineer.getEquippedWeapon());

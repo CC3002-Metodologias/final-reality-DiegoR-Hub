@@ -2,8 +2,6 @@ package com.github.cc3002.finalreality.model.character.player;
 
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 import com.github.cc3002.finalreality.model.character.AbstractCharacter;
 import com.github.cc3002.finalreality.model.character.ICharacter;
@@ -52,14 +50,5 @@ public class Enemy extends AbstractCharacter {
     return Objects.hashCode(Enemy.class);
   }
 
-  public void addToQueue() {
-    turnsQueue.add(this);
-    scheduledExecutor.shutdown();
-  }
-  public void waitTurn() {
-    scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
-      var enemy = (Enemy) this;
-      scheduledExecutor
-              .schedule(this::addToQueue, enemy.getWeight() / 10, TimeUnit.SECONDS);
-  }
+
 }

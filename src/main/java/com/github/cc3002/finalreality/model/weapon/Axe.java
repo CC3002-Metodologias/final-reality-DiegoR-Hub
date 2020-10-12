@@ -1,8 +1,15 @@
 package com.github.cc3002.finalreality.model.weapon;
 
 import java.util.Objects;
-
+    /**
+     * La clase que implementa las Axes del juego
+     *
+     */
 public class Axe extends AbstractWeapon {
+    /**
+     * Creates a new Axe with a name, a damage, a weight
+     *
+     */
     public Axe(String name, int damage, int weight) {
         super(name, damage, weight);
     }

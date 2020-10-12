@@ -21,5 +21,9 @@ public interface ICharacter {
    */
   void addToQueue();
 
-
+  /**
+   * Sets a scheduled executor to make this character (thread) wait for {@code speed / 10}
+   * seconds before adding the character to the queue.
+   */
+  void waitTurn();
 }

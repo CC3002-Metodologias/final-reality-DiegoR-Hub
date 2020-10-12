@@ -12,6 +12,10 @@ import java.util.concurrent.BlockingQueue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+    /**
+     * Abstract class containing the tests for the Knight.
+     *
+     */
 public class KnightTest {
     private Knight testKnight;
     private Sword testSword;
@@ -32,24 +36,40 @@ public class KnightTest {
         testAxe=new Axe(AXE_NAME,DAMAGE,WEIGHT);
         testKnife=new Knife(KNIGHT_NAME,DAMAGE,WEIGHT);
     }
+
+    /**
+     * Checks that the class' constructor and equals method works properly.
+     */
     @Test
     void constructorTest(){
         var expectedKnight= new Knight(turns, KNIGHT_NAME);
         assertEquals(expectedKnight, testKnight);
         assertEquals(expectedKnight.hashCode(), testKnight.hashCode());
     }
+
+    /**
+     * Chequea que una instancia de la clase Knight se pueda equipar correctamente una Sword
+     */
     @Test
     public  void equipSwordTest(){
         assertNull(testKnight.getEquippedWeapon());
         testKnight.equipSword(testSword);
         assertEquals(testSword, testKnight.getEquippedWeapon());
     }
+
+    /**
+     * Chequea que una instancia de la clase Knight se pueda equipar correctamente una Axe
+     */
     @Test
     public void equipAxeTest() {
         assertNull(testKnight.getEquippedWeapon());
         testKnight.equipAxe(testAxe);
         assertEquals(testAxe, testKnight.getEquippedWeapon());
     }
+
+    /**
+     * Chequea que una instancia de la clase Knight se pueda equipar correctamente un Knife
+     */
     @Test
     public void equipKnifeTest() {
         assertNull(testKnight.getEquippedWeapon());

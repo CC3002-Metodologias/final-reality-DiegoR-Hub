@@ -8,23 +8,35 @@ import com.github.cc3002.finalreality.model.weapon.Staff;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 
+/**
+ * La clase que implementa los BlackMage del juego
+ *
+ */
 public class BlackMage extends MagePlayerCharacter {
+
     /**
-     * Creates a new character.
+     * Creates a BlackMage with a queue, a name, a mana
      *
-     * @param name       the character's name
-     * @param turnsQueue the queue with the characters waiting for their turn
      */
     public BlackMage(BlockingQueue<ICharacter> turnsQueue, String name, int mana) {
         super(turnsQueue,name,mana);
     }
+    /**
+     * Actualiza el atributo equippedWeapon del BlackMage a la Knife newKnife
+     * @param newKnife
+     */
     public void equipKnife(Knife newKnife) {
         this.equippedWeapon=newKnife;
     }
 
+    /**
+     * Actualiza el atributo equippedWeapon del BlackMage al Staff newStaff
+     * @param newStaff
+     */
     public void equipStaff(Staff newStaff){
         this.equippedWeapon=newStaff;
     }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
