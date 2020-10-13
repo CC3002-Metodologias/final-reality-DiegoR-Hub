@@ -8,17 +8,18 @@ import java.util.concurrent.BlockingQueue;
 
 /**
  * La clase que implementa los WhiteMage del juego
- *
+ * @author Ignacio Slater Muñoz.
+ * @author Diego Ruiz R.
  */
-public class WhiteMage extends MagePlayerCharacter {
+public class WhiteMage extends PlayerCharacter {
+    private int mana;
     /**
-     * Creates a new character.
+     * Creates a new WhiteMage with a turnsQueue, a name, a mana
      *
-     * @param name       the character's name
-     * @param turnsQueue the queue with the characters waiting for their turn
      */
     public WhiteMage(BlockingQueue<ICharacter> turnsQueue, String name, int mana) {
-        super(turnsQueue,name,mana);
+        super(turnsQueue,name);
+        this.mana=mana;
     }
 
     /**

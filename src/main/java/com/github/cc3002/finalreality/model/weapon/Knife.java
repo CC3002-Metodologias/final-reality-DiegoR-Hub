@@ -4,7 +4,8 @@ import java.util.Objects;
 
     /**
      * La clase que implementa los Knife del juego
-     *
+     * @author Ignacio Slater Muñoz.
+     * @author Diego Ruiz R.
      */
 public class Knife extends AbstractWeapon {
     /**

@@ -4,7 +4,8 @@ import java.util.Objects;
 
     /**
      * La clase que implementa las Sword del juego
-     *
+     * @author Ignacio Slater Muñoz.
+     * @author Diego Ruiz R.
      */
 public class Sword extends AbstractWeapon {
     /**

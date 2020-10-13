@@ -1,11 +1,11 @@
 package com.github.cc3002.finalreality.model.weapon;
 
-import com.github.cc3002.finalreality.model.character.player.Engineer;
 
 import java.util.Objects;
     /**
      * La clase que implementa las Axes del juego
-     *
+     * @author Ignacio Slater Muñoz.
+     * @author Diego Ruiz R.
      */
 public class Axe extends AbstractWeapon {
     /**

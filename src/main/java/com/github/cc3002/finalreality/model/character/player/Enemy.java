@@ -13,15 +13,15 @@ import org.jetbrains.annotations.NotNull;
  * A class that holds all the information of a single enemy of the game.
  *
  * @author Ignacio Slater Muñoz
- * @author <Your name>
+ * @author Diego Ruiz R.
  */
 public class Enemy extends AbstractCharacter {
 
   private final int weight;
 
   /**
-   * Creates a new enemy with a name, a weight and the queue with the characters ready to
-   * play.
+   * Creates a new Enemy with a turnsQueue, a name
+   *
    */
   public Enemy(@NotNull final BlockingQueue<ICharacter> turnsQueue, @NotNull final String name, final int weight) {
     super(turnsQueue, name);

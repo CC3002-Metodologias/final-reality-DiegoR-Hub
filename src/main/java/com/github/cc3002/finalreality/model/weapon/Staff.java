@@ -4,15 +4,25 @@ import java.util.Objects;
 
     /**
      * La clase que implementa los Staff del juego
-     *
+     * @author Ignacio Slater Muñoz.
+     * @author Diego Ruiz R.
      */
-public class Staff extends MagicWeapon {
+public class Staff extends AbstractWeapon {
+    private int magicDamage;
     /**
      * Creates a new Staff with a name, a damage, a weight and a magicDamage
      *
      */
     public Staff(String name, int damage, int weight, int magicDamage) {
-        super(name, damage, weight, magicDamage);
+        super(name, damage, weight);
+        this.magicDamage=magicDamage;
+    }
+    /**
+     * getter de atributo magicDamage
+     * @return
+     */
+    public int getmagicDamage(){
+        return this.magicDamage;
     }
 
     @Override

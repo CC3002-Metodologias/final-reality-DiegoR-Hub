@@ -81,9 +81,9 @@ public class EnemyTest {
             // Thread.sleep is not accurate so this values may be changed to adjust the
             // acceptable error margin.
             // We're testing that the character waits approximately 1 second.
-            Thread.sleep(100);
+            Thread.sleep(900);
             Assertions.assertEquals(0, turns.size());
-            Thread.sleep(3000);
+            Thread.sleep(200);
             Assertions.assertEquals(1, turns.size());
             Assertions.assertEquals(listaEnemigos.get(0), turns.peek());
         } catch (InterruptedException e) {

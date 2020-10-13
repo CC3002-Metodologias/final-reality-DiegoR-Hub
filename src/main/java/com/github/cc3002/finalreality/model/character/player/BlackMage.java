@@ -10,16 +10,19 @@ import java.util.concurrent.BlockingQueue;
 
 /**
  * La clase que implementa los BlackMage del juego
+ * @author Ignacio Slater Muñoz.
+ * @author Diego Ruiz R.
  *
  */
-public class BlackMage extends MagePlayerCharacter {
-
+public class BlackMage extends PlayerCharacter {
+    private int mana;
     /**
-     * Creates a BlackMage with a queue, a name, a mana
+     * Creates a new BlackMage with a turnsQueue, a name, a mana
      *
      */
     public BlackMage(BlockingQueue<ICharacter> turnsQueue, String name, int mana) {
-        super(turnsQueue,name,mana);
+        super(turnsQueue,name);
+        this.mana=mana;
     }
     /**
      * Actualiza el atributo equippedWeapon del BlackMage a la Knife newKnife

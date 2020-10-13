@@ -10,13 +10,15 @@ import java.util.concurrent.BlockingQueue;
 
 /**
  * La clase que implementa los Knight del juego
- *
+ * @author Ignacio Slater Muñoz.
+ * @author Diego Ruiz R.
  */
 public class Knight extends PlayerCharacter {
 
     /**
      * Creates a new Knight with a name and the queue
-     *
+     * @author Ignacio Slater Muñoz.
+     * @author <Your name>
      */
     public Knight(BlockingQueue<ICharacter> turnsQueue, String name) {
         super(turnsQueue,name);

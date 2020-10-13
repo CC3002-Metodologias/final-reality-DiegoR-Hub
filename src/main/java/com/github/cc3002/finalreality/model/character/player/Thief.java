@@ -10,7 +10,8 @@ import java.util.concurrent.BlockingQueue;
 
     /**
      * La clase que implementa los Thief del juego
-     *
+     * @author Ignacio Slater Muñoz.
+     * @author Diego Ruiz R.
      */
 public class Thief extends PlayerCharacter {
 

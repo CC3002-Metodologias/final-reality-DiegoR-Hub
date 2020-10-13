@@ -9,13 +9,13 @@ import java.util.concurrent.BlockingQueue;
 
 /**
  * La clase que implementa los Engineer del juego
- *
+ * @author Ignacio Slater Muñoz.
+ * @author Diego Ruiz R.
  */
 public class Engineer extends PlayerCharacter {
 
     /**
      * Creates a new Engineer with a name, a weight and the queue
-     *
      */
     public Engineer(BlockingQueue<ICharacter> turnsQueue, String name) {
         super(turnsQueue,name);

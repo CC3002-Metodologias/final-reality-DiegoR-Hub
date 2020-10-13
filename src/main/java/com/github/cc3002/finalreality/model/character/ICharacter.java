@@ -1,13 +1,11 @@
 package com.github.cc3002.finalreality.model.character;
 
-
-
 /**
  * This represents a character from the game.
  * A character can be controlled by the player or by the CPU (an enemy).
  *
  * @author Ignacio Slater Muñoz.
- * @author <Your name>
+ * @author Diego Ruiz R.
  */
 public interface ICharacter {
 

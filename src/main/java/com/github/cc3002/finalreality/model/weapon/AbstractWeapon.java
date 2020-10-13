@@ -5,7 +5,7 @@ package com.github.cc3002.finalreality.model.weapon;
  * A class that holds all the information of a weapon.
  *
  * @author Ignacio Slater Muñoz.
- * @author <Your name>
+ * @author Diego Ruiz R.
  */
 public abstract class AbstractWeapon implements IWeapon {
 
@@ -23,7 +23,7 @@ public abstract class AbstractWeapon implements IWeapon {
   }
 
   /**
-   * Metodo general para retornar el valor del atributo name de cualquier IWeapon
+   * Metodo para retornar el valor del atributo name de cualquier IWeapon
    */
   @Override
   public String getName() {
@@ -31,14 +31,14 @@ public abstract class AbstractWeapon implements IWeapon {
   }
 
   /**
-   * Metodo general para retornar el valor del atributo damage de cualquier IWeapon
+   * Metodo para retornar el valor del atributo damage de cualquier IWeapon
    */
   @Override
   public int getDamage() {
     return this.damage;
   }
   /**
-   * Metodo general para retornar el valor del atributo weight de cualquier IWeapon
+   * Metodo para retornar el valor del atributo weight de cualquier IWeapon
    */
   @Override
   public int getWeight() {
