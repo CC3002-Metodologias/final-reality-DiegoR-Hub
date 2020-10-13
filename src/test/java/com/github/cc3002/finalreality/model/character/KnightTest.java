@@ -1,6 +1,7 @@
 package com.github.cc3002.finalreality.model.character;
 
 import com.github.cc3002.finalreality.model.character.player.Knight;
+import com.github.cc3002.finalreality.model.character.player.WhiteMage;
 import com.github.cc3002.finalreality.model.weapon.Axe;
 import com.github.cc3002.finalreality.model.weapon.Knife;
 import com.github.cc3002.finalreality.model.weapon.Sword;
@@ -9,10 +10,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.BlockingQueue;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
-    /**
+/**
      * Abstract class containing the tests for the Knight.
      *
      */
@@ -21,13 +21,15 @@ public class KnightTest {
     private Sword testSword;
     private Knife testKnife;
     private Axe testAxe;
+    private WhiteMage testWhiteMage;
+    private static final String WHITE_MAGE_NAME = "Eiko";
     private static final String KNIGHT_NAME = "Adelbert";
     private static final BlockingQueue<com.github.cc3002.finalreality.model.character.ICharacter> turns = null;
     private static final int DAMAGE = 15;
     private static final int WEIGHT = 20;
     private static final String AXE_NAME = "Test Axe";
     private static final String SWORD_NAME = "Test Sword";
-
+    private static final int MANA = 15;
 
     @BeforeEach
     void setUp(){
@@ -35,6 +37,7 @@ public class KnightTest {
         testSword=new Sword(SWORD_NAME,DAMAGE,WEIGHT);
         testAxe=new Axe(AXE_NAME,DAMAGE,WEIGHT);
         testKnife=new Knife(KNIGHT_NAME,DAMAGE,WEIGHT);
+        testWhiteMage = new WhiteMage(turns,WHITE_MAGE_NAME,MANA);
     }
 
     /**
@@ -43,8 +46,11 @@ public class KnightTest {
     @Test
     void constructorTest(){
         var expectedKnight= new Knight(turns, KNIGHT_NAME);
+        var prueba = testKnight;
         assertEquals(expectedKnight, testKnight);
         assertEquals(expectedKnight.hashCode(), testKnight.hashCode());
+        assertNotEquals(testKnight,testWhiteMage);
+        assertEquals(prueba,testKnight);
     }
 
     /**

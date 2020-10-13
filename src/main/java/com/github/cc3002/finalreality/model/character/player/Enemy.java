@@ -2,6 +2,8 @@ package com.github.cc3002.finalreality.model.character.player;
 
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import com.github.cc3002.finalreality.model.character.AbstractCharacter;
 import com.github.cc3002.finalreality.model.character.ICharacter;
@@ -30,7 +32,7 @@ public class Enemy extends AbstractCharacter {
    * Returns the weight of this enemy.
    */
   public int getWeight() {
-    return weight;
+    return this.weight;
   }
 
   @Override
@@ -50,5 +52,23 @@ public class Enemy extends AbstractCharacter {
     return Objects.hashCode(Enemy.class);
   }
 
+  /**
+   * Adds this character to the turns queue.
+   */
+  @Override
+  public void addToQueue() {
+    turnsQueue.add(this);
+    scheduledExecutor.shutdown();
+  }
+  /**
+   * Sets a scheduled executor to make this character (thread) wait for {@code speed / 10}
+   * seconds before adding the character to the queue.
+   */
+  public void waitTurn() {
+    scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
+      var enemy = (Enemy) this;
+      scheduledExecutor
+              .schedule(this::addToQueue, enemy.getWeight() / 10, TimeUnit.SECONDS);
 
+  }
 }

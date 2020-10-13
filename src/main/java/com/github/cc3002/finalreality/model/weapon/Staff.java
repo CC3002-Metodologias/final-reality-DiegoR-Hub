@@ -26,7 +26,8 @@ public class Staff extends MagicWeapon {
         final Staff staff = (Staff) o;
         return getDamage() == staff.getDamage() &&
                 getWeight() == staff.getWeight() &&
-                getName().equals(staff.getName());
+                getName().equals(staff.getName()) &&
+                getmagicDamage()==staff.getmagicDamage();
     }
     @Override
     public int hashCode(){

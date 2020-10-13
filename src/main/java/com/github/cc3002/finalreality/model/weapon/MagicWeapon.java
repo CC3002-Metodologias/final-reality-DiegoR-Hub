@@ -8,4 +8,11 @@ public class MagicWeapon extends AbstractWeapon {
         super(name, damage, weight);
         this.magicDamage=magicDamage;
     }
+    /**
+     * getter de atributo magicDamage
+     * @return
+     */
+    public int getmagicDamage(){
+        return this.magicDamage;
+    }
 }

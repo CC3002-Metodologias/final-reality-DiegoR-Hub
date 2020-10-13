@@ -45,18 +45,6 @@ public abstract class AbstractCharacter implements ICharacter {
     return name;
   }
 
-  @Override
-  public void waitTurn() {
-    scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
-    if (this instanceof PlayerCharacter) {
-      scheduledExecutor
-              .schedule(this::addToQueue, ((PlayerCharacter) this).getEquippedWeapon().getWeight() / 10, TimeUnit.SECONDS);
-    } else {
-      var enemy = (Enemy) this;
-      scheduledExecutor
-              .schedule(this::addToQueue, enemy.getWeight() / 10, TimeUnit.SECONDS);
-    }
-  }
 }
 
 

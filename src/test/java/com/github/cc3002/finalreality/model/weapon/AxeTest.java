@@ -3,10 +3,9 @@ package com.github.cc3002.finalreality.model.weapon;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
-    /**
+/**
      * Abstract class containing the tests for the Axe.
      *
      */
@@ -17,10 +16,18 @@ public class AxeTest {
     private static final String KNIFE_NAME = "Test Knife";
 
     private Axe testAxe;
+    private Axe testAxeDifferentName;
+    private Axe testAxeDifferentWeight;
+    private Axe testAxeDifferentDamage;
+    private Knife testKnife;
 
     @BeforeEach
     void setUp(){
         testAxe=new Axe(AXE_NAME,DAMAGE,WEIGHT);
+        testAxeDifferentName = new Axe("hola", DAMAGE, WEIGHT);
+        testAxeDifferentWeight = new Axe(AXE_NAME, DAMAGE, WEIGHT+1);
+        testAxeDifferentDamage = new Axe(AXE_NAME, DAMAGE+1, WEIGHT);
+        testKnife = new Knife(KNIFE_NAME,DAMAGE,WEIGHT);
     }
 
     /**
@@ -29,10 +36,22 @@ public class AxeTest {
     @Test
     void constructorTest(){
         var expectedAxe = new Axe(AXE_NAME, DAMAGE, WEIGHT);
-        Knife testKnife = new Knife(KNIFE_NAME,DAMAGE,WEIGHT);
         assertEquals(expectedAxe, testAxe);
         assertEquals(expectedAxe.hashCode(), testAxe.hashCode());
+
+        var prueba = testAxe;
+        assertEquals(prueba,testAxe);
+
+
         assertNotEquals(expectedAxe.hashCode(), testKnife.hashCode());
+        assertNotEquals(testAxe,testKnife);
+
+        assertFalse(testAxe.equals(testAxeDifferentName));
+        assertFalse(testAxe.equals(testAxeDifferentWeight));
+        assertFalse(testAxe.equals(testAxeDifferentDamage));
+
+
+
     }
 
 }

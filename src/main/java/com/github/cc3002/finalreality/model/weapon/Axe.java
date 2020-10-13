@@ -1,5 +1,7 @@
 package com.github.cc3002.finalreality.model.weapon;
 
+import com.github.cc3002.finalreality.model.character.player.Engineer;
+
 import java.util.Objects;
     /**
      * La clase que implementa las Axes del juego
@@ -22,9 +24,10 @@ public class Axe extends AbstractWeapon {
             return false;
         }
         final Axe axe = (Axe) o;
-        return getDamage() == axe.getDamage() &&
+        return  getDamage() == axe.getDamage() &&
                 getWeight() == axe.getWeight() &&
                 getName().equals(axe.getName());
+
     }
     @Override
     public int hashCode(){
