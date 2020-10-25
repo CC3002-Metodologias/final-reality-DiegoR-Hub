@@ -1,6 +1,8 @@
 package com.github.cc3002.finalreality.model.weapon;
 
 
+import com.github.cc3002.finalreality.model.character.player.*;
+
 import java.util.Objects;
     /**
      * La clase que implementa las Axes del juego
@@ -32,6 +34,16 @@ public class Axe extends AbstractWeapon {
     @Override
     public int hashCode(){
         return Objects.hashCode(Axe.class);
+    }
+
+    @Override
+    public void equippedByEngineer(Engineer engineer) {
+        engineer.setEquippedWeapon(this);
+    }
+
+    @Override
+    public void equippedByKnight(Knight knight) {
+        knight.setEquippedWeapon(this);
     }
 
 }

@@ -18,9 +18,38 @@ import org.jetbrains.annotations.NotNull;
 public class PlayerCharacter extends AbstractCharacter {
   protected IWeapon equippedWeapon;
 
-  public PlayerCharacter(@NotNull BlockingQueue<ICharacter> turnsQueue, @NotNull String name)
+  @Override
+  public void attack(ICharacter character) {
+    character.attackedByPlayerCharacter(this);
+  }
+
+  @Override
+  public void attackedByPlayerCharacter(PlayerCharacter playerCharacter) {
+    return;
+  }
+
+  @Override
+  public void attackedByEnemy(Enemy enemy) {
+    if (this.isDead()){
+      return;
+    }
+    else if (enemy.getAttackPoints()-this.getDefensePoints() >= this.getHealthPoints()){
+      this.setDead();
+      this.setHealthPoints(0);
+    }
+    else{
+      this.setHealthPoints(this.getHealthPoints() - (enemy.getAttackPoints()-this.getDefensePoints()));
+    }
+  }
+
+  @Override
+  public void equipWeapon(IWeapon weapon) {
+
+  }
+
+  public PlayerCharacter(@NotNull BlockingQueue<ICharacter> turnsQueue, @NotNull String name, int defensePoints, int healthPoints)
   {
-    super(turnsQueue, name);
+    super(turnsQueue, name, defensePoints, healthPoints);
     equippedWeapon=null;
   }
 
@@ -37,8 +66,10 @@ public class PlayerCharacter extends AbstractCharacter {
    */
   public void waitTurn() {
     scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
-      scheduledExecutor
-              .schedule(this::addToQueue,getEquippedWeapon().getWeight() / 10, TimeUnit.SECONDS);
+    scheduledExecutor.schedule(this::addToQueue,getEquippedWeapon().getWeight() / 10, TimeUnit.SECONDS);
+  }
 
+  public void setEquippedWeapon(IWeapon equippedWeapon) {
+    this.equippedWeapon = equippedWeapon;
   }
 }

@@ -1,5 +1,7 @@
 package com.github.cc3002.finalreality.model.weapon;
 
+import com.github.cc3002.finalreality.model.character.player.*;
+
 /**
  * Esto representa un weapon del juego
  * Una weapon puede ser equipada por un PlayerCharacter
@@ -25,5 +27,31 @@ public interface IWeapon {
      * Returns this weapon's weight.
      */
     int getWeight() ;
+
+    /**
+     *
+     */
+    void equippedByBlackMage(BlackMage blackMage);
+
+    /**
+     *
+     */
+    void equippedByWhiteMage(WhiteMage whiteMage);
+
+    /**
+     *
+     */
+    void equippedByEngineer(Engineer engineer);
+
+    /**
+     *
+     */
+    void equippedByKnight(Knight knight);
+
+    /**
+     *
+     */
+    void equippedByThief(Thief thief);
+
 
 }

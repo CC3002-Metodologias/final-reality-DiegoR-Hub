@@ -1,5 +1,7 @@
 package com.github.cc3002.finalreality.model.weapon;
 
+import com.github.cc3002.finalreality.model.character.player.*;
+
 import java.util.Objects;
 
     /**
@@ -34,4 +36,16 @@ public class Knife extends AbstractWeapon {
     public int hashCode(){
         return Objects.hashCode(Knife.class);
     }
+
+    @Override
+    public void equippedByBlackMage(BlackMage blackMage) {
+        blackMage.setEquippedWeapon(this);
+    }
+
+
+    @Override
+    public void equippedByKnight(Knight knight) {
+        knight.setEquippedWeapon(this);
+    }
+
 }

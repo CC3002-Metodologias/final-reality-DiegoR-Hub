@@ -1,7 +1,9 @@
 package com.github.cc3002.finalreality.model.character.player;
 
 import com.github.cc3002.finalreality.model.character.ICharacter;
+import com.github.cc3002.finalreality.model.weapon.IWeapon;
 import com.github.cc3002.finalreality.model.weapon.Staff;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
@@ -13,23 +15,14 @@ import java.util.concurrent.BlockingQueue;
  */
 public class WhiteMage extends PlayerCharacter {
     private int mana;
-    /**
-     * Creates a new WhiteMage with a turnsQueue, a name, a mana
-     *
-     */
-    public WhiteMage(BlockingQueue<ICharacter> turnsQueue, String name, int mana) {
-        super(turnsQueue,name);
-        this.mana=mana;
-    }
 
     /**
-     * Actualiza el atributo equippedWeapon de WhiteMage a un Staff dado por newStaff
+     * Creates a new WhiteMage with a turnsQueue, a name, defense points, health points, mana
      *
-     * @param newStaff
-     *      El staff a equipar al WhiteMage
      */
-    public void equipStaff(Staff newStaff){
-        this.equippedWeapon=newStaff;
+    public WhiteMage(@NotNull BlockingQueue<ICharacter> turnsQueue, @NotNull String name, int defensePoints, int healthPoints, int mana) {
+        super(turnsQueue, name, defensePoints, healthPoints);
+        this.mana = mana;
     }
 
     @Override
@@ -41,11 +34,17 @@ public class WhiteMage extends PlayerCharacter {
             return false;
         }
         final WhiteMage whiteMage = (WhiteMage) o;
-        return getName().equals(whiteMage.getName());
+        return getName().equals(whiteMage.getName()) &&
+                getDefensePoints() == whiteMage.getDefensePoints() &&
+                getHealthPoints() == whiteMage.getHealthPoints();
     }
     @Override
     public int hashCode(){
         return Objects.hashCode(WhiteMage.class);
     }
 
+    @Override
+    public void equipWeapon(IWeapon weapon) {
+        weapon.equippedByWhiteMage(this);
+    }
 }

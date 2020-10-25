@@ -1,6 +1,8 @@
 package com.github.cc3002.finalreality.model.weapon;
 
 
+import com.github.cc3002.finalreality.model.character.player.*;
+
 /**
  * A class that holds all the information of a weapon.
  *
@@ -43,5 +45,33 @@ public abstract class AbstractWeapon implements IWeapon {
   @Override
   public int getWeight() {
     return this.weight;
+  }
+
+
+  public void equipVoid(){return;}
+
+  @Override
+  public void equippedByBlackMage(BlackMage blackMage) {
+    this.equipVoid();
+  }
+
+  @Override
+  public void equippedByWhiteMage(WhiteMage whiteMage) {
+    this.equipVoid();
+  }
+
+  @Override
+  public void equippedByEngineer(Engineer engineer) {
+    this.equipVoid();
+  }
+
+  @Override
+  public void equippedByKnight(Knight knight) {
+    this.equipVoid();
+  }
+
+  @Override
+  public void equippedByThief(Thief thief) {
+    this.equipVoid();
   }
 }

@@ -2,9 +2,7 @@ package com.github.cc3002.finalreality.model.character;
 
 import com.github.cc3002.finalreality.model.character.player.Thief;
 import com.github.cc3002.finalreality.model.character.player.WhiteMage;
-import com.github.cc3002.finalreality.model.weapon.Bow;
-import com.github.cc3002.finalreality.model.weapon.Staff;
-import com.github.cc3002.finalreality.model.weapon.Sword;
+import com.github.cc3002.finalreality.model.weapon.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,6 +16,9 @@ import static org.junit.jupiter.api.Assertions.*;
      */
 public class ThiefTest {
     private Thief testThief;
+    private  Thief testThiefDifferentName;
+    private  Thief testThiefDifferentHealthPoints;
+    private  Thief testThiefDifferentDefensePoints;
     private Sword testSword;
     private Staff testStaff;
     private Bow testBow;
@@ -26,20 +27,31 @@ public class ThiefTest {
     private static final BlockingQueue<com.github.cc3002.finalreality.model.character.ICharacter> turns = null;
     private static final int DAMAGE = 15;
     private static final int WEIGHT = 20;
+    private static final int DEFENSE_POINTS = 7;
+    private static  final int HEALTH_POINTS = 17;
     private static final String BOW_NAME = "Test Bow";
     private static final String STAFF_NAME = "Test Staff";
     private static final String SWORD_NAME = "Test Sword";
     private  static final int MAGIC_DAMAGE=10;
     private static final String WHITE_MAGE_NAME = "Eiko";
     private static final int MANA = 15;
+    private static final String KNIFE_NAME = "Test Knife";
+    private static final String AXE_NAME = "Test Axe";
+    private Knife testKnife;
+    private Axe testAxe;
 
     @BeforeEach
     void setUp(){
-        testThief=new Thief(turns, THIEF_NAME);
-        testBow=new Bow(BOW_NAME,DAMAGE,WEIGHT);
-        testStaff=new Staff(STAFF_NAME,DAMAGE,WEIGHT,MAGIC_DAMAGE);
-        testSword=new Sword(SWORD_NAME,DAMAGE,WEIGHT);
-        testWhiteMage = new WhiteMage(turns,WHITE_MAGE_NAME,MANA);
+        testThief=new Thief(turns, THIEF_NAME, DEFENSE_POINTS, HEALTH_POINTS);
+        testThiefDifferentDefensePoints = new Thief(turns, THIEF_NAME, DEFENSE_POINTS+1, HEALTH_POINTS);
+        testThiefDifferentHealthPoints = new Thief(turns, THIEF_NAME, DEFENSE_POINTS, HEALTH_POINTS+1);
+        testThiefDifferentName = new Thief(turns, "hola", DEFENSE_POINTS, HEALTH_POINTS);
+        testKnife = new Knife(KNIFE_NAME, DAMAGE,WEIGHT);
+        testStaff = new Staff(STAFF_NAME,DAMAGE,WEIGHT,MAGIC_DAMAGE);
+        testAxe = new Axe(AXE_NAME, DAMAGE,WEIGHT);
+        testSword = new Sword(SWORD_NAME, DAMAGE, WEIGHT);
+        testBow = new Bow(BOW_NAME, DAMAGE, WEIGHT);
+        testWhiteMage = new WhiteMage(turns,WHITE_MAGE_NAME, DEFENSE_POINTS, HEALTH_POINTS, MANA);
     }
 
     /**
@@ -47,11 +59,13 @@ public class ThiefTest {
      */
     @Test
     void constructorTest(){
-        var expectedThief= new Thief(turns, THIEF_NAME);
+        var expectedThief= new Thief(turns, THIEF_NAME, DEFENSE_POINTS, HEALTH_POINTS);
         var prueba = testThief;
         assertEquals(expectedThief, testThief);
         assertEquals(expectedThief.hashCode(), testThief.hashCode());
         assertNotEquals(testThief,testWhiteMage);
+        assertNotEquals(testThief, testThiefDifferentDefensePoints);
+        assertNotEquals(testThief, testThiefDifferentHealthPoints);
         assertEquals(prueba,testThief);
     }
 
@@ -61,7 +75,7 @@ public class ThiefTest {
     @Test
     public void equipSwordTest() {
         assertNull(testThief.getEquippedWeapon());
-        testThief.equipSword(testSword);
+        testThief.equipWeapon(testSword);
         assertEquals(testSword, testThief.getEquippedWeapon());
     }
 
@@ -71,7 +85,7 @@ public class ThiefTest {
     @Test
     public void equipStaffTest() {
         assertNull(testThief.getEquippedWeapon());
-        testThief.equipStaff(testStaff);
+        testThief.equipWeapon(testStaff);
         assertEquals(testStaff, testThief.getEquippedWeapon());
     }
 
@@ -81,7 +95,25 @@ public class ThiefTest {
     @Test
     public void equipBowTest() {
         assertNull(testThief.getEquippedWeapon());
-        testThief.equipBow(testBow);
+        testThief.equipWeapon(testBow);
         assertEquals(testBow, testThief.getEquippedWeapon());
+    }
+    /**
+     * Chequea que una instancia de la clase Thief no se pueda equipar un Axe
+     */
+    @Test
+    void equipAxeTest(){
+        assertNull(testThief.getEquippedWeapon());
+        testThief.equipWeapon(testKnife);
+        assertNull(testThief.getEquippedWeapon());
+    }
+    /**
+     * Chequea que una instancia de la clase Thief no se pueda equipar un Knife
+     */
+    @Test
+    void equipKnifeTest(){
+        assertNull(testThief.getEquippedWeapon());
+        testThief.equipWeapon(testKnife);
+        assertNull(testThief.getEquippedWeapon());
     }
 }

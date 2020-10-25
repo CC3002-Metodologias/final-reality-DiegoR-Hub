@@ -1,5 +1,7 @@
 package com.github.cc3002.finalreality.model.weapon;
 
+import com.github.cc3002.finalreality.model.character.player.*;
+
 import java.util.Objects;
     /**
      * La clase que implementa los Bow del juego
@@ -33,4 +35,15 @@ public class Bow extends AbstractWeapon {
         return Objects.hashCode(Bow.class);
     }
 
+
+    @Override
+    public void equippedByEngineer(Engineer engineer) {
+        engineer.setEquippedWeapon(this);
+    }
+
+
+    @Override
+    public void equippedByThief(Thief thief) {
+        thief.setEquippedWeapon(this);
+    }
 }
