@@ -2,7 +2,6 @@ package com.github.cc3002.finalreality.model.character.player;
 
 import com.github.cc3002.finalreality.model.character.ICharacter;
 import com.github.cc3002.finalreality.model.weapon.IWeapon;
-import com.github.cc3002.finalreality.model.weapon.Staff;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -13,7 +12,7 @@ import java.util.concurrent.BlockingQueue;
  * @author Ignacio Slater Muñoz.
  * @author Diego Ruiz R.
  */
-public class WhiteMage extends PlayerCharacter {
+public class WhiteMage extends AbstractPlayerCharacter {
     private int mana;
 
     /**
@@ -36,15 +35,27 @@ public class WhiteMage extends PlayerCharacter {
         final WhiteMage whiteMage = (WhiteMage) o;
         return getName().equals(whiteMage.getName()) &&
                 getDefensePoints() == whiteMage.getDefensePoints() &&
-                getHealthPoints() == whiteMage.getHealthPoints();
+                getHealthPoints() == whiteMage.getHealthPoints()&&
+                getMana() == whiteMage.getMana();
     }
     @Override
     public int hashCode(){
         return Objects.hashCode(WhiteMage.class);
     }
 
+    /**
+     *
+     * Equipa un arma a este WhiteMage
+     */
     @Override
     public void equipWeapon(IWeapon weapon) {
         weapon.equippedByWhiteMage(this);
+    }
+    /**
+     *
+     * Retorna el valor de mana de este WhiteMage
+     */
+    public int getMana() {
+        return mana;
     }
 }

@@ -25,7 +25,7 @@ public class PlayerCharacterTest {
     private BlackMage testBlackMage;
     private Thief testThief;
     private Knight testKnight;
-    private List<PlayerCharacter> listaPlayerCharacter;
+    private List<IPlayerCharacter> listaPlayerCharacter;
     private Axe testAxe;
     private Sword testSword;
     private Staff testStaff;
@@ -43,7 +43,7 @@ public class PlayerCharacterTest {
         testEnemyDead = new Enemy(turns, ENEMY_NAME, ENEMY_WEIGHT, DEFENSE_POINTS, 0, ATTACK_POINTS);
         testEnemy=new Enemy(turns, ENEMY_NAME, ENEMY_WEIGHT, DEFENSE_POINTS, HEALTH_POINTS, ATTACK_POINTS);
         turns = new LinkedBlockingQueue<>();
-        listaPlayerCharacter = new ArrayList<PlayerCharacter>();
+        listaPlayerCharacter = new ArrayList<IPlayerCharacter>();
         testBlackMage = new BlackMage(turns, "cosa", DEFENSE_POINTS, HEALTH_POINTS, MANA);
         testEngineer = new Engineer(turns, "casa", DEFENSE_POINTS, HEALTH_POINTS);
         testKnight = new Knight(turns, "peso", DEFENSE_POINTS, HEALTH_POINTS);
@@ -73,9 +73,6 @@ public class PlayerCharacterTest {
     void attackTest() {
         testEngineer.attack(testEnemy);
         assertTrue(testEnemy.getHealthPoints() == HEALTH_POINTS - (testEngineer.getEquippedWeapon().getDamage()-testEnemy.getDefensePoints()));
-
-        testEngineer.attack(testThief);
-        assertTrue(testThief.getHealthPoints() == HEALTH_POINTS );
 
         assertTrue(testEnemyDead.isDead());
         testEngineer.attack(testEnemyDead);

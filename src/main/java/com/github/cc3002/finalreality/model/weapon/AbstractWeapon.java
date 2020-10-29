@@ -47,29 +47,51 @@ public abstract class AbstractWeapon implements IWeapon {
     return this.weight;
   }
 
-
+  /**
+   * Metodo auxiliar, sin efectos
+   */
   public void equipVoid(){return;}
 
+  /**
+   *
+   * Double Dispatch, a menos que se redefina, armas no se equipan a BlackMage
+   */
   @Override
   public void equippedByBlackMage(BlackMage blackMage) {
     this.equipVoid();
   }
 
+  /**
+   *
+   * Double Dispatch, a menos que se redefina, armas no se equipan a WhiteMage
+   */
   @Override
   public void equippedByWhiteMage(WhiteMage whiteMage) {
     this.equipVoid();
   }
 
+  /**
+   *
+   * Double Dispatch, a menos que se redefina, armas no se equipan a Engineer
+   */
   @Override
   public void equippedByEngineer(Engineer engineer) {
     this.equipVoid();
   }
 
+  /**
+   *
+   * Double Dispatch, a menos que se redefina, armas no se equipan a Knight
+   */
   @Override
   public void equippedByKnight(Knight knight) {
     this.equipVoid();
   }
 
+  /**
+   *
+   * Double Dispatch, a menos que se redefina, armas no se equipan a Thief
+   */
   @Override
   public void equippedByThief(Thief thief) {
     this.equipVoid();

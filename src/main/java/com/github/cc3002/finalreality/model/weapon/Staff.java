@@ -20,8 +20,8 @@ public class Staff extends AbstractWeapon {
         this.magicDamage=magicDamage;
     }
     /**
-     * getter de atributo magicDamage
-     * @return
+     * retorna valor de magicDamage de la instancia
+     *
      */
     public int getmagicDamage(){
         return this.magicDamage;
@@ -46,18 +46,28 @@ public class Staff extends AbstractWeapon {
         return Objects.hashCode(Staff.class);
     }
 
-        @Override
-        public void equippedByBlackMage(BlackMage blackMage) {
-            blackMage.setEquippedWeapon(this);
-        }
-
-        @Override
-        public void equippedByWhiteMage(WhiteMage whiteMage) {
-            whiteMage.setEquippedWeapon(this);
-        }
-
-        @Override
-        public void equippedByThief(Thief thief) {
-            thief.setEquippedWeapon(this);
-        }
+    /**
+     *  Se equipa a si misma a una instancia de BlackMage
+     *
+     */
+    @Override
+    public void equippedByBlackMage(BlackMage blackMage) {
+        blackMage.setEquippedWeapon(this);
     }
+    /**
+     *  Se equipa a si misma a una instancia de WhiteMage
+     *
+     */
+    @Override
+    public void equippedByWhiteMage(WhiteMage whiteMage) {
+        whiteMage.setEquippedWeapon(this);
+    }
+    /**
+     *  Se equipa a si misma a una instancia de Thief
+     *
+     */
+    @Override
+    public void equippedByThief(Thief thief) {
+        thief.setEquippedWeapon(this);
+    }
+}

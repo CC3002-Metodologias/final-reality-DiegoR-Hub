@@ -3,8 +3,6 @@ package com.github.cc3002.finalreality.model.character.player;
 
 import com.github.cc3002.finalreality.model.character.ICharacter;
 import com.github.cc3002.finalreality.model.weapon.IWeapon;
-import com.github.cc3002.finalreality.model.weapon.Knife;
-import com.github.cc3002.finalreality.model.weapon.Staff;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -16,10 +14,10 @@ import java.util.concurrent.BlockingQueue;
  * @author Diego Ruiz R.
  *
  */
-public class BlackMage extends PlayerCharacter {
+public class BlackMage extends AbstractPlayerCharacter {
     private int mana;
     /**
-     * Creates a new BlackMage with a turnsQueue, a name, a mana, defenePoints and healthPoints
+     * Creates a new BlackMage with a turnsQueue, a name, a mana, defensePoints and healthPoints
      *
      */
     public BlackMage(@NotNull BlockingQueue<ICharacter> turnsQueue, @NotNull String name, int defensePoints, int healthPoints, int mana) {
@@ -46,11 +44,19 @@ public class BlackMage extends PlayerCharacter {
         return Objects.hashCode(BlackMage.class);
     }
 
+    /**
+     *
+     * Equipa un arma a este BlackMage
+     */
     @Override
     public void equipWeapon(IWeapon weapon) {
         weapon.equippedByBlackMage(this);
     }
 
+    /**
+     *
+     * Retorna el valor de mana de este Blackmage
+     */
     public int getMana() {
         return mana;
     }

@@ -6,7 +6,6 @@ import com.github.cc3002.finalreality.model.weapon.IWeapon;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -15,23 +14,25 @@ import org.jetbrains.annotations.NotNull;
  * @author Ignacio Slater Muñoz.
  * @author Diego Ruiz R.
  */
-public class PlayerCharacter extends AbstractCharacter {
+public abstract class AbstractPlayerCharacter extends AbstractCharacter implements IPlayerCharacter {
   protected IWeapon equippedWeapon;
 
+  /**
+   *
+   * player characters' common methos to attack an enemy
+   */
   @Override
-  public void attack(ICharacter character) {
-    character.attackedByPlayerCharacter(this);
+  public void attack(Enemy enemy) {
+    enemy.attackedByPlayerCharacter(this);
   }
 
-  @Override
-  public void attackedByPlayerCharacter(PlayerCharacter playerCharacter) {
-    return;
-  }
-
+  /**
+   *
+   * Player characters' common method for being attacked by an enemy
+   */
   @Override
   public void attackedByEnemy(Enemy enemy) {
     if (this.isDead()){
-      return;
     }
     else if (enemy.getAttackPoints()-this.getDefensePoints() >= this.getHealthPoints()){
       this.setDead();
@@ -42,12 +43,11 @@ public class PlayerCharacter extends AbstractCharacter {
     }
   }
 
-  @Override
-  public void equipWeapon(IWeapon weapon) {
-
-  }
-
-  public PlayerCharacter(@NotNull BlockingQueue<ICharacter> turnsQueue, @NotNull String name, int defensePoints, int healthPoints)
+  /**
+   *
+   * Constructor comun para subclases de AbstractPlayerCharacter, sets Queue, name, defensePoints, healthPoints
+   */
+  public AbstractPlayerCharacter(@NotNull BlockingQueue<ICharacter> turnsQueue, @NotNull String name, int defensePoints, int healthPoints)
   {
     super(turnsQueue, name, defensePoints, healthPoints);
     equippedWeapon=null;
@@ -69,7 +69,11 @@ public class PlayerCharacter extends AbstractCharacter {
     scheduledExecutor.schedule(this::addToQueue,getEquippedWeapon().getWeight() / 10, TimeUnit.SECONDS);
   }
 
-  public void setEquippedWeapon(IWeapon equippedWeapon) {
-    this.equippedWeapon = equippedWeapon;
+  /**
+   *
+   * common method for setting player characters' equipped weapon
+   */
+  public void setEquippedWeapon(IWeapon weapon) {
+    this.equippedWeapon = weapon;
   }
 }

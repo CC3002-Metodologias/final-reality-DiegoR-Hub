@@ -35,14 +35,21 @@ public class Knife extends AbstractWeapon {
     @Override
     public int hashCode(){
         return Objects.hashCode(Knife.class);
-    }
+}
 
+    /**
+     *  Se equipa a si misma a una instancia de BlackMage
+     *
+     */
     @Override
     public void equippedByBlackMage(BlackMage blackMage) {
         blackMage.setEquippedWeapon(this);
     }
 
-
+    /**
+     *  Se equipa a si misma a una instancia de Knight
+     *
+     */
     @Override
     public void equippedByKnight(Knight knight) {
         knight.setEquippedWeapon(this);

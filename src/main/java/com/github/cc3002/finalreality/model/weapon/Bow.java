@@ -35,13 +35,19 @@ public class Bow extends AbstractWeapon {
         return Objects.hashCode(Bow.class);
     }
 
-
+    /**
+     *  Se equipa a si misma a una instancia de Engineer
+     *
+     */
     @Override
     public void equippedByEngineer(Engineer engineer) {
         engineer.setEquippedWeapon(this);
     }
 
-
+    /**
+     *  Se equipa a si misma a una instancia de Thief
+     *
+     */
     @Override
     public void equippedByThief(Thief thief) {
         thief.setEquippedWeapon(this);

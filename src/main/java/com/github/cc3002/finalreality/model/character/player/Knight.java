@@ -1,10 +1,7 @@
 package com.github.cc3002.finalreality.model.character.player;
 
 import com.github.cc3002.finalreality.model.character.ICharacter;
-import com.github.cc3002.finalreality.model.weapon.Axe;
 import com.github.cc3002.finalreality.model.weapon.IWeapon;
-import com.github.cc3002.finalreality.model.weapon.Knife;
-import com.github.cc3002.finalreality.model.weapon.Sword;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -15,7 +12,7 @@ import java.util.concurrent.BlockingQueue;
  * @author Ignacio Slater Muñoz.
  * @author Diego Ruiz R.
  */
-public class Knight extends PlayerCharacter {
+public class Knight extends AbstractPlayerCharacter {
 
     /**
      * Creates a new Knight with a name and the queue
@@ -44,6 +41,10 @@ public class Knight extends PlayerCharacter {
         return Objects.hashCode(Knight.class);
     }
 
+    /**
+     *
+     * Equipa un arma a este Knight
+     */
     @Override
     public void equipWeapon(IWeapon weapon) {
         weapon.equippedByKnight(this);

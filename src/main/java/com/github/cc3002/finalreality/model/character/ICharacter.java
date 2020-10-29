@@ -1,8 +1,5 @@
 package com.github.cc3002.finalreality.model.character;
 
-import com.github.cc3002.finalreality.model.character.player.Enemy;
-import com.github.cc3002.finalreality.model.character.player.PlayerCharacter;
-import com.github.cc3002.finalreality.model.weapon.IWeapon;
 
 /**
  * This represents a character from the game.
@@ -24,23 +21,7 @@ public interface ICharacter {
   void addToQueue();
 
   /**
-   * 
+   * Espera el turno de este character
    */
-  void attack(ICharacter character);
-
-  /**
-   *
-   */
-  void attackedByPlayerCharacter(PlayerCharacter playerCharacter);
-
-  /**
-   *
-   */
-  void attackedByEnemy(Enemy enemy);
-
-  /**
-   *
-   */
-  void equipWeapon(IWeapon weapon);
-
+  void waitTurn();
 }

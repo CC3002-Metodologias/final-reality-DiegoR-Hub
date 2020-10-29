@@ -25,7 +25,7 @@ public class EnemyTest {
     private static final int DEFENSE_POINTS = 7;
     private static  final int HEALTH_POINTS = 17;
     private static final int ATTACK_POINTS = 12;
-    protected BlockingQueue<com.github.cc3002.finalreality.model.character.ICharacter> turns;
+    private static BlockingQueue<com.github.cc3002.finalreality.model.character.ICharacter> turns;
     private Enemy testEnemyDead;
     private Engineer testEngineerDead;
     private Engineer testEngineerAboutToDie;
@@ -112,8 +112,6 @@ public class EnemyTest {
      */
     @Test
     void attackTest() {
-        testEnemy.attack(testEnemy1);
-        assertTrue(testEnemy.getHealthPoints() == HEALTH_POINTS);
 
         testEnemy.attack(testEngineer);
         assertTrue(testEngineer.getHealthPoints() == HEALTH_POINTS - (ATTACK_POINTS -  DEFENSE_POINTS));
@@ -133,8 +131,9 @@ public class EnemyTest {
      */
     @Test
     void waitTurnTest() {
+        Enemy prueba = new Enemy(turns, "hola", 16, 7, 17, 12 );
         Assertions.assertTrue(turns.isEmpty());
-        listaEnemigos.get(0).waitTurn();
+        prueba.waitTurn();
         try {
             // Thread.sleep is not accurate so this values may be changed to adjust the
             // acceptable error margin.
@@ -143,7 +142,7 @@ public class EnemyTest {
             Assertions.assertEquals(0, turns.size());
             Thread.sleep(200);
             Assertions.assertEquals(1, turns.size());
-            Assertions.assertEquals(listaEnemigos.get(0), turns.peek());
+            Assertions.assertEquals(prueba, turns.peek());
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

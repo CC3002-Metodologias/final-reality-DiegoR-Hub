@@ -17,6 +17,7 @@ public class Axe extends AbstractWeapon {
     public Axe(String name, int damage, int weight) {
         super(name, damage, weight);
     }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
@@ -36,11 +37,19 @@ public class Axe extends AbstractWeapon {
         return Objects.hashCode(Axe.class);
     }
 
+    /**
+     *  Se equipa a si misma a una instancia de Engineer
+     *
+     */
     @Override
     public void equippedByEngineer(Engineer engineer) {
         engineer.setEquippedWeapon(this);
     }
 
+    /**
+     *  Se equipa a si misma a una instancia de Knight
+     *
+     */
     @Override
     public void equippedByKnight(Knight knight) {
         knight.setEquippedWeapon(this);

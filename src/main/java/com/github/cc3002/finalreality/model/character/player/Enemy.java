@@ -7,7 +7,6 @@ import java.util.concurrent.TimeUnit;
 
 import com.github.cc3002.finalreality.model.character.AbstractCharacter;
 import com.github.cc3002.finalreality.model.character.ICharacter;
-import com.github.cc3002.finalreality.model.weapon.IWeapon;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -16,10 +15,10 @@ import org.jetbrains.annotations.NotNull;
  * @author Ignacio Slater Muñoz
  * @author Diego Ruiz R.
  */
-public class Enemy extends AbstractCharacter {
+public class Enemy extends AbstractCharacter implements IEnemy{
 
   private final int weight;
-  private int attackPoints;
+  private final int attackPoints;
 
   /**
    * Creates a new Enemy with a turnsQueue, a name
@@ -67,14 +66,13 @@ public class Enemy extends AbstractCharacter {
 
 
   @Override
-  public void attack(ICharacter character) {
-    character.attackedByEnemy(this);
+  public void attack(IPlayerCharacter playerCharacter) {
+    playerCharacter.attackedByEnemy(this);
   }
 
   @Override
-  public void attackedByPlayerCharacter(PlayerCharacter playerCharacter) {
+  public void attackedByPlayerCharacter(IPlayerCharacter playerCharacter) {
     if (this.isDead()){
-      return;
     }
     else if (playerCharacter.getEquippedWeapon().getDamage()-this.getDefensePoints() >= this.getHealthPoints()){
       this.setDead();
@@ -83,16 +81,6 @@ public class Enemy extends AbstractCharacter {
     else{
       this.setHealthPoints(this.getHealthPoints() - (playerCharacter.getEquippedWeapon().getDamage()-this.getDefensePoints()));
     }
-  }
-
-  @Override
-  public void attackedByEnemy(Enemy enemy) {
-    return;
-  }
-
-  @Override
-  public void equipWeapon(IWeapon weapon) {
-    return;
   }
 
   /**
@@ -104,4 +92,5 @@ public class Enemy extends AbstractCharacter {
     scheduledExecutor.schedule(this::addToQueue, getWeight() / 10, TimeUnit.SECONDS);
 
   }
+
 }
