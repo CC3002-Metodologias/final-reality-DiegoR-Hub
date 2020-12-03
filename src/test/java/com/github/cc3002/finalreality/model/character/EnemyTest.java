@@ -131,8 +131,8 @@ public class EnemyTest {
      */
     @Test
     void waitTurnTest() {
-        Enemy prueba = new Enemy(turns, "hola", 16, 7, 17, 12 );
         Assertions.assertTrue(turns.isEmpty());
+        Enemy prueba = new Enemy(turns, "hola", 16, 7, 17, 12 );
         prueba.waitTurn();
         try {
             // Thread.sleep is not accurate so this values may be changed to adjust the

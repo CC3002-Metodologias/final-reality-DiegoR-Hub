@@ -66,6 +66,7 @@ public class ThiefTest {
         assertNotEquals(testThief,testWhiteMage);
         assertNotEquals(testThief, testThiefDifferentDefensePoints);
         assertNotEquals(testThief, testThiefDifferentHealthPoints);
+        assertNotEquals(testThief, testThiefDifferentName);
         assertEquals(prueba,testThief);
     }
 

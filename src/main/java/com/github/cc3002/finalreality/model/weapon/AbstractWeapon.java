@@ -47,10 +47,6 @@ public abstract class AbstractWeapon implements IWeapon {
     return this.weight;
   }
 
-  /**
-   * Metodo auxiliar, sin efectos
-   */
-  public void equipVoid(){return;}
 
   /**
    *
@@ -58,7 +54,7 @@ public abstract class AbstractWeapon implements IWeapon {
    */
   @Override
   public void equippedByBlackMage(BlackMage blackMage) {
-    this.equipVoid();
+    return;
   }
 
   /**
@@ -67,7 +63,7 @@ public abstract class AbstractWeapon implements IWeapon {
    */
   @Override
   public void equippedByWhiteMage(WhiteMage whiteMage) {
-    this.equipVoid();
+    return;
   }
 
   /**
@@ -76,7 +72,7 @@ public abstract class AbstractWeapon implements IWeapon {
    */
   @Override
   public void equippedByEngineer(Engineer engineer) {
-    this.equipVoid();
+    return;
   }
 
   /**
@@ -85,7 +81,7 @@ public abstract class AbstractWeapon implements IWeapon {
    */
   @Override
   public void equippedByKnight(Knight knight) {
-    this.equipVoid();
+    return;
   }
 
   /**
@@ -94,6 +90,6 @@ public abstract class AbstractWeapon implements IWeapon {
    */
   @Override
   public void equippedByThief(Thief thief) {
-    this.equipVoid();
+    return;
   }
 }

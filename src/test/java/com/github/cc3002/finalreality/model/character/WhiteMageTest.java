@@ -67,6 +67,10 @@ public class WhiteMageTest {
         assertEquals(expectedWhiteMage, testWhiteMage);
         assertEquals(expectedWhiteMage.hashCode(), testWhiteMage.hashCode());
         assertNotEquals(testWhiteMage,testBlackMage);
+        assertNotEquals(testWhiteMage, testWhiteMageDifferentDefensePoints);
+        assertNotEquals(testWhiteMage, testWhiteMageDifferentMana);
+        assertNotEquals(testWhiteMage, testWhiteMageDifferentName);
+        assertNotEquals(testWhiteMage, testWhiteMageDifferentHealthPoints);
         assertEquals(prueba,testWhiteMage);
     }
 

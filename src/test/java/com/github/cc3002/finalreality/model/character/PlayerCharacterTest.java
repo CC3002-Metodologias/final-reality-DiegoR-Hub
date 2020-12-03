@@ -72,7 +72,7 @@ public class PlayerCharacterTest {
     @Test
     void attackTest() {
         testEngineer.attack(testEnemy);
-        assertTrue(testEnemy.getHealthPoints() == HEALTH_POINTS - (testEngineer.getEquippedWeapon().getDamage()-testEnemy.getDefensePoints()));
+        assertTrue(testEnemy.getHealthPoints() == HEALTH_POINTS - (testEngineer.getDamage()-testEnemy.getDefensePoints()));
 
         assertTrue(testEnemyDead.isDead());
         testEngineer.attack(testEnemyDead);

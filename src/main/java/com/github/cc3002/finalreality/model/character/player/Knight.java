@@ -16,8 +16,7 @@ public class Knight extends AbstractPlayerCharacter {
 
     /**
      * Creates a new Knight with a name and the queue
-     * @author Ignacio Slater Muñoz.
-     * @author <Your name>
+     * @author Diego Ruiz R.
      */
     public Knight(@NotNull BlockingQueue<ICharacter> turnsQueue, @NotNull String name, int defensePoints, int healthPoints) {
         super(turnsQueue, name, defensePoints, healthPoints);

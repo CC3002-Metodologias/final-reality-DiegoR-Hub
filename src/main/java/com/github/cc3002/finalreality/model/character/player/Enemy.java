@@ -1,5 +1,7 @@
 package com.github.cc3002.finalreality.model.character.player;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executors;
@@ -15,10 +17,11 @@ import org.jetbrains.annotations.NotNull;
  * @author Ignacio Slater Muñoz
  * @author Diego Ruiz R.
  */
-public class Enemy extends AbstractCharacter implements IEnemy{
+public class Enemy extends AbstractCharacter {
 
   private final int weight;
   private final int attackPoints;
+  private PropertyChangeSupport turnos;
 
   /**
    * Creates a new Enemy with a turnsQueue, a name
@@ -28,7 +31,17 @@ public class Enemy extends AbstractCharacter implements IEnemy{
     super(turnsQueue, name, defensePoints, healthPoints);
     this.weight = weight;
     this.attackPoints = attackPoints;
+    turnos = new PropertyChangeSupport(this);
   }
+
+  /**
+   *
+   * Asocia este enemy a un listener que indique cuando termina el turno de este enemy
+   */
+  public void addTurnsListener(PropertyChangeListener turnsHandler) {
+    turnos.addPropertyChangeListener(turnsHandler);
+  }
+
 
   /**
    * Returns the attackPoints of this enemy
@@ -64,25 +77,6 @@ public class Enemy extends AbstractCharacter implements IEnemy{
     return Objects.hashCode(Enemy.class);
   }
 
-
-  @Override
-  public void attack(IPlayerCharacter playerCharacter) {
-    playerCharacter.attackedByEnemy(this);
-  }
-
-  @Override
-  public void attackedByPlayerCharacter(IPlayerCharacter playerCharacter) {
-    if (this.isDead()){
-    }
-    else if (playerCharacter.getEquippedWeapon().getDamage()-this.getDefensePoints() >= this.getHealthPoints()){
-      this.setDead();
-      this.setHealthPoints(0);
-    }
-    else{
-      this.setHealthPoints(this.getHealthPoints() - (playerCharacter.getEquippedWeapon().getDamage()-this.getDefensePoints()));
-    }
-  }
-
   /**
    * Sets a scheduled executor to make this character (thread) wait for {@code speed / 10}
    * seconds before adding the character to the queue.
@@ -90,7 +84,14 @@ public class Enemy extends AbstractCharacter implements IEnemy{
   public void waitTurn() {
     scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
     scheduledExecutor.schedule(this::addToQueue, getWeight() / 10, TimeUnit.SECONDS);
-
+    turnos.firePropertyChange("turno", "", this.getName());
   }
 
+  /**
+   *
+   * retorna el daño a realizar por este enemy
+   */
+  public int getDamage(){
+    return this.getAttackPoints();
+  }
 }

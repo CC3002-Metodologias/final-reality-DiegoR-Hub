@@ -3,6 +3,9 @@ package com.github.cc3002.finalreality.model.character.player;
 import com.github.cc3002.finalreality.model.character.AbstractCharacter;
 import com.github.cc3002.finalreality.model.character.ICharacter;
 import com.github.cc3002.finalreality.model.weapon.IWeapon;
+
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -16,31 +19,15 @@ import org.jetbrains.annotations.NotNull;
  */
 public abstract class AbstractPlayerCharacter extends AbstractCharacter implements IPlayerCharacter {
   protected IWeapon equippedWeapon;
+  private PropertyChangeSupport turnos;
 
   /**
    *
-   * player characters' common methos to attack an enemy
+   * retorna el daño a realizar por este player character
    */
   @Override
-  public void attack(Enemy enemy) {
-    enemy.attackedByPlayerCharacter(this);
-  }
-
-  /**
-   *
-   * Player characters' common method for being attacked by an enemy
-   */
-  @Override
-  public void attackedByEnemy(Enemy enemy) {
-    if (this.isDead()){
-    }
-    else if (enemy.getAttackPoints()-this.getDefensePoints() >= this.getHealthPoints()){
-      this.setDead();
-      this.setHealthPoints(0);
-    }
-    else{
-      this.setHealthPoints(this.getHealthPoints() - (enemy.getAttackPoints()-this.getDefensePoints()));
-    }
+  public int getDamage(){
+    return  this.getEquippedWeapon().getDamage();
   }
 
   /**
@@ -51,6 +38,7 @@ public abstract class AbstractPlayerCharacter extends AbstractCharacter implemen
   {
     super(turnsQueue, name, defensePoints, healthPoints);
     equippedWeapon=null;
+    turnos = new PropertyChangeSupport(this);
   }
 
   /**
@@ -67,8 +55,17 @@ public abstract class AbstractPlayerCharacter extends AbstractCharacter implemen
   public void waitTurn() {
     scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
     scheduledExecutor.schedule(this::addToQueue,getEquippedWeapon().getWeight() / 10, TimeUnit.SECONDS);
+    turnos.firePropertyChange("turno", "", this.getName());
   }
 
+  /**
+   *
+   * Asocia este enemy a un listener que indique cuando termina el turno de este enemy
+   */
+  @Override
+  public void addTurnsListener(PropertyChangeListener turnsHandler) {
+    turnos.addPropertyChangeListener(turnsHandler);
+  }
   /**
    *
    * common method for setting player characters' equipped weapon
@@ -76,4 +73,5 @@ public abstract class AbstractPlayerCharacter extends AbstractCharacter implemen
   public void setEquippedWeapon(IWeapon weapon) {
     this.equippedWeapon = weapon;
   }
+
 }

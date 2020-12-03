@@ -23,4 +23,8 @@ Con fin en respetar los principios de diseño SOLID se realizaron las siguientes
 que tambien se elimina por romper Liskov en cuanto un enemigo no puede equipar armas
 * Se mueve el metodo getEquippedWeapon() desde AbstractCharacter a Player Character ya que rompe Liskov en cuanto 
 un enemigo no debe tener una equippedWeapon
-Para mayor detalle de los cambios realizados dirigirse a ChangeLog 
+Para mayor detalle de los cambios realizados dirigirse a ChangeLog
+
+Version Entrega 2
+---
+ 
