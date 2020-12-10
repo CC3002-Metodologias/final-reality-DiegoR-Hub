@@ -23,6 +23,4 @@ public interface IPlayerCharacter extends ICharacter{
      */
     void setEquippedWeapon(IWeapon weapon);
 
-    void addTurnsListener(PropertyChangeListener turnsHandler);
-
 }

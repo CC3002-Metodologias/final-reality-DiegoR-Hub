@@ -28,17 +28,17 @@ public abstract class AbstractCharacter implements ICharacter {
    */
   public void setDead(){
     this.dead = true;
+    muertes.firePropertyChange("death", "", this.getName());
   }
 
   /**
    *
-   * Indica a un handler que observe a este character
+   * Indica a un handler de muertes que observe cuando este character muera
    */
   @Override
   public void addDeathListener(PropertyChangeListener deathHandler) {
     muertes.addPropertyChangeListener(deathHandler);
   }
-
 
   /**
    *
@@ -66,10 +66,10 @@ public abstract class AbstractCharacter implements ICharacter {
   public boolean isDead(){
     return this.dead;
   }
+
   /**
    * Adds this character to the turns queue.
    */
-
   @Override
   public void addToQueue() {
     turnsQueue.add(this);
@@ -115,7 +115,6 @@ public abstract class AbstractCharacter implements ICharacter {
     else if (character.getDamage()-this.getDefensePoints() >= this.getHealthPoints()){
       this.setDead();
       this.setHealthPoints(0);
-      muertes.firePropertyChange("death", "", this.getName());
     }
     else{
       this.setHealthPoints(this.getHealthPoints() - (character.getDamage()-this.getDefensePoints()));

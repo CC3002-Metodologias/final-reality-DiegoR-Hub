@@ -21,7 +21,6 @@ public class Enemy extends AbstractCharacter {
 
   private final int weight;
   private final int attackPoints;
-  private PropertyChangeSupport turnos;
 
   /**
    * Creates a new Enemy with a turnsQueue, a name
@@ -31,23 +30,6 @@ public class Enemy extends AbstractCharacter {
     super(turnsQueue, name, defensePoints, healthPoints);
     this.weight = weight;
     this.attackPoints = attackPoints;
-    turnos = new PropertyChangeSupport(this);
-  }
-
-  /**
-   *
-   * Asocia este enemy a un listener que indique cuando termina el turno de este enemy
-   */
-  public void addTurnsListener(PropertyChangeListener turnsHandler) {
-    turnos.addPropertyChangeListener(turnsHandler);
-  }
-
-
-  /**
-   * Returns the attackPoints of this enemy
-   */
-  public int getAttackPoints(){
-    return this.attackPoints;
   }
 
   /**
@@ -84,7 +66,7 @@ public class Enemy extends AbstractCharacter {
   public void waitTurn() {
     scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
     scheduledExecutor.schedule(this::addToQueue, getWeight() / 10, TimeUnit.SECONDS);
-    turnos.firePropertyChange("turno", "", this.getName());
+
   }
 
   /**
@@ -93,5 +75,13 @@ public class Enemy extends AbstractCharacter {
    */
   public int getDamage(){
     return this.getAttackPoints();
+  }
+
+  /**
+   *
+   * retorna el valor del atributo attackPoints de esta instancia de Enemy
+   */
+  private int getAttackPoints() {
+    return this.attackPoints;
   }
 }

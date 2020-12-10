@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public abstract class AbstractPlayerCharacter extends AbstractCharacter implements IPlayerCharacter {
   protected IWeapon equippedWeapon;
-  private PropertyChangeSupport turnos;
+
 
   /**
    *
@@ -38,7 +38,6 @@ public abstract class AbstractPlayerCharacter extends AbstractCharacter implemen
   {
     super(turnsQueue, name, defensePoints, healthPoints);
     equippedWeapon=null;
-    turnos = new PropertyChangeSupport(this);
   }
 
   /**
@@ -55,17 +54,9 @@ public abstract class AbstractPlayerCharacter extends AbstractCharacter implemen
   public void waitTurn() {
     scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
     scheduledExecutor.schedule(this::addToQueue,getEquippedWeapon().getWeight() / 10, TimeUnit.SECONDS);
-    turnos.firePropertyChange("turno", "", this.getName());
   }
 
-  /**
-   *
-   * Asocia este enemy a un listener que indique cuando termina el turno de este enemy
-   */
-  @Override
-  public void addTurnsListener(PropertyChangeListener turnsHandler) {
-    turnos.addPropertyChangeListener(turnsHandler);
-  }
+
   /**
    *
    * common method for setting player characters' equipped weapon

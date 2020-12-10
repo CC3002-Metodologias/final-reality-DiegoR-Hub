@@ -62,4 +62,9 @@ public interface ICharacter {
    * Setea que de ahora en adelante este character está muerto
    */
   void setDead();
+
+  int getHealthPoints();
+
+  int getDefensePoints();
+
 }
