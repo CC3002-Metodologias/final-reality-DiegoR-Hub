@@ -17,11 +17,11 @@ import java.util.concurrent.BlockingQueue;
 public class BlackMage extends AbstractPlayerCharacter {
     private int mana;
     /**
-     * Creates a new BlackMage with a turnsQueue, a name, a mana, defensePoints and healthPoints
+     * Creates a new BlackMage with a name, a mana, defensePoints and healthPoints
      *
      */
-    public BlackMage(@NotNull BlockingQueue<ICharacter> turnsQueue, @NotNull String name, int defensePoints, int healthPoints, int mana) {
-        super(turnsQueue, name, defensePoints, healthPoints);
+    public BlackMage(@NotNull String name, int defensePoints, int healthPoints, int mana) {
+        super(name, defensePoints, healthPoints);
         this.mana = mana;
     }
 

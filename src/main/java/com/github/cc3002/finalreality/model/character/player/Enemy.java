@@ -1,7 +1,5 @@
 package com.github.cc3002.finalreality.model.character.player;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executors;
@@ -23,11 +21,11 @@ public class Enemy extends AbstractCharacter {
   private final int attackPoints;
 
   /**
-   * Creates a new Enemy with a turnsQueue, a name
+   * Creates a new Enemy with a name, its weight, defensePoints, healthPoints and attakPoints
    *
    */
-  public Enemy(@NotNull final BlockingQueue<ICharacter> turnsQueue, @NotNull final String name,int weight, int defensePoints, int healthPoints,   int attackPoints) {
-    super(turnsQueue, name, defensePoints, healthPoints);
+  public Enemy(@NotNull final String name,int weight, int defensePoints, int healthPoints,   int attackPoints) {
+    super(name, defensePoints, healthPoints);
     this.weight = weight;
     this.attackPoints = attackPoints;
   }
@@ -59,15 +57,6 @@ public class Enemy extends AbstractCharacter {
     return Objects.hashCode(Enemy.class);
   }
 
-  /**
-   * Sets a scheduled executor to make this character (thread) wait for {@code speed / 10}
-   * seconds before adding the character to the queue.
-   */
-  public void waitTurn() {
-    scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
-    scheduledExecutor.schedule(this::addToQueue, getWeight() / 10, TimeUnit.SECONDS);
-
-  }
 
   /**
    *

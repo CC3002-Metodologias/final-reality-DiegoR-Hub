@@ -25,7 +25,6 @@ public class EnemyTest {
     private static final int DEFENSE_POINTS = 7;
     private static  final int HEALTH_POINTS = 17;
     private static final int ATTACK_POINTS = 12;
-    private static BlockingQueue<com.github.cc3002.finalreality.model.character.ICharacter> turns;
     private Enemy testEnemyDead;
     private Engineer testEngineerDead;
     private Engineer testEngineerAboutToDie;
@@ -57,27 +56,26 @@ public class EnemyTest {
     private Bow testBow;
     @BeforeEach
     void setUp(){
-        testEnemyDead = new Enemy(turns, ENEMY_NAME, ENEMY_WEIGHT, DEFENSE_POINTS, 0, ATTACK_POINTS);
-        testEngineerDead = new Engineer(turns, ENGINEER_NAME, DEFENSE_POINTS, 0);
-        testEngineerAboutToDie = new Engineer(turns, ENGINEER_NAME, DEFENSE_POINTS, ATTACK_POINTS - (DEFENSE_POINTS + 1));
-        testEnemy=new Enemy(turns, ENEMY_NAME, ENEMY_WEIGHT, DEFENSE_POINTS, HEALTH_POINTS, ATTACK_POINTS);
-        testEnemy1 = new Enemy(turns, "bla", 16, DEFENSE_POINTS, HEALTH_POINTS, ATTACK_POINTS);
-        testEnemy2 = new Enemy(turns, "bla", 13, DEFENSE_POINTS, HEALTH_POINTS, ATTACK_POINTS);
-        testEnemy3 = new Enemy(turns, "hola", 10,  DEFENSE_POINTS, HEALTH_POINTS, ATTACK_POINTS);
-        testEnemy4 = new Enemy(turns, "chao", 10,  DEFENSE_POINTS, HEALTH_POINTS, ATTACK_POINTS);
+        testEnemyDead = new Enemy( ENEMY_NAME, ENEMY_WEIGHT, DEFENSE_POINTS, 0, ATTACK_POINTS);
+        testEngineerDead = new Engineer(ENGINEER_NAME, DEFENSE_POINTS, 0);
+        testEngineerAboutToDie = new Engineer( ENGINEER_NAME, DEFENSE_POINTS, ATTACK_POINTS - (DEFENSE_POINTS + 1));
+        testEnemy=new Enemy(ENEMY_NAME, ENEMY_WEIGHT, DEFENSE_POINTS, HEALTH_POINTS, ATTACK_POINTS);
+        testEnemy1 = new Enemy("bla", 16, DEFENSE_POINTS, HEALTH_POINTS, ATTACK_POINTS);
+        testEnemy2 = new Enemy("bla", 13, DEFENSE_POINTS, HEALTH_POINTS, ATTACK_POINTS);
+        testEnemy3 = new Enemy("hola", 10,  DEFENSE_POINTS, HEALTH_POINTS, ATTACK_POINTS);
+        testEnemy4 = new Enemy( "chao", 10,  DEFENSE_POINTS, HEALTH_POINTS, ATTACK_POINTS);
         listaEnemigos = new ArrayList<Enemy>();
-        turns = new LinkedBlockingQueue<>();
         listaEnemigos.add(testEnemy);
         listaEnemigos.add(testEnemy1);
         listaEnemigos.add(testEnemy2);
         listaEnemigos.add(testEnemy3);
         listaEnemigos.add(testEnemy4);
-        testEngineer = new Engineer(turns,ENGINEER_NAME, DEFENSE_POINTS, HEALTH_POINTS);
-        testEnemyDifferentName = new Enemy(turns,"hola", ENEMY_WEIGHT, DEFENSE_POINTS, HEALTH_POINTS, ATTACK_POINTS);
-        testEnemyDifferentWeight = new Enemy(turns, ENEMY_NAME, ENEMY_WEIGHT+1 , DEFENSE_POINTS, HEALTH_POINTS, ATTACK_POINTS);
-        testEnemyDifferentAttackPoints = new Enemy(turns, ENEMY_NAME, ENEMY_WEIGHT, DEFENSE_POINTS, HEALTH_POINTS, ATTACK_POINTS+1);
-        testEnemyDifferentDefensePoints = new Enemy(turns, ENEMY_NAME, ENEMY_WEIGHT, DEFENSE_POINTS+1, HEALTH_POINTS, ATTACK_POINTS);
-        testEnemyDifferentHealthPoints = new Enemy(turns, ENEMY_NAME, ENEMY_WEIGHT, DEFENSE_POINTS, HEALTH_POINTS+1, ATTACK_POINTS);
+        testEngineer = new Engineer(ENGINEER_NAME, DEFENSE_POINTS, HEALTH_POINTS);
+        testEnemyDifferentName = new Enemy("hola", ENEMY_WEIGHT, DEFENSE_POINTS, HEALTH_POINTS, ATTACK_POINTS);
+        testEnemyDifferentWeight = new Enemy( ENEMY_NAME, ENEMY_WEIGHT+1 , DEFENSE_POINTS, HEALTH_POINTS, ATTACK_POINTS);
+        testEnemyDifferentAttackPoints = new Enemy( ENEMY_NAME, ENEMY_WEIGHT, DEFENSE_POINTS, HEALTH_POINTS, ATTACK_POINTS+1);
+        testEnemyDifferentDefensePoints = new Enemy(ENEMY_NAME, ENEMY_WEIGHT, DEFENSE_POINTS+1, HEALTH_POINTS, ATTACK_POINTS);
+        testEnemyDifferentHealthPoints = new Enemy( ENEMY_NAME, ENEMY_WEIGHT, DEFENSE_POINTS, HEALTH_POINTS+1, ATTACK_POINTS);
         testKnife = new Knife(KNIFE_NAME, DAMAGE,WEIGHT);
         testStaff = new Staff(STAFF_NAME,DAMAGE,WEIGHT,MAGIC_DAMAGE);
         testAxe = new Axe(AXE_NAME, DAMAGE,WEIGHT);
@@ -91,7 +89,7 @@ public class EnemyTest {
 
     @Test
     void constructorTest(){
-        var expectedEnemy = new Enemy(turns,ENEMY_NAME,ENEMY_WEIGHT, DEFENSE_POINTS, HEALTH_POINTS, ATTACK_POINTS);
+        var expectedEnemy = new Enemy(ENEMY_NAME,ENEMY_WEIGHT, DEFENSE_POINTS, HEALTH_POINTS, ATTACK_POINTS);
         assertEquals(expectedEnemy, testEnemy);
         assertEquals(expectedEnemy.hashCode(),testEnemy.hashCode());
 
@@ -126,26 +124,5 @@ public class EnemyTest {
         assertTrue(testEngineerAboutToDie.isDead());
     }
 
-    /**
-     * Checks that the character waits the appropriate amount of time for it's turn.
-     */
-    @Test
-    void waitTurnTest() {
-        Assertions.assertTrue(turns.isEmpty());
-        Enemy prueba = new Enemy(turns, "hola", 16, 7, 17, 12 );
-        prueba.waitTurn();
-        try {
-            // Thread.sleep is not accurate so this values may be changed to adjust the
-            // acceptable error margin.
-            // We're testing that the character waits approximately 1 second.
-            Thread.sleep(900);
-            Assertions.assertEquals(0, turns.size());
-            Thread.sleep(200);
-            Assertions.assertEquals(1, turns.size());
-            Assertions.assertEquals(prueba, turns.peek());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
 
 }

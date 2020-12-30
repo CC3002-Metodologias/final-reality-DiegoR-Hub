@@ -14,9 +14,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public abstract class AbstractCharacter implements ICharacter {
 
-  protected final BlockingQueue<ICharacter> turnsQueue;
-  protected final String name;
-  protected ScheduledExecutorService scheduledExecutor;
+  private final String name;
   private int defensePoints;
   private int healthPoints;
   private boolean dead;
@@ -28,7 +26,7 @@ public abstract class AbstractCharacter implements ICharacter {
    */
   public void setDead(){
     this.dead = true;
-    muertes.firePropertyChange("death", "", this.getName());
+    muertes.firePropertyChange("death", "", this);
   }
 
   /**
@@ -44,10 +42,8 @@ public abstract class AbstractCharacter implements ICharacter {
    *
    * Constructor comun para subclases de AbstractCharacter, su queue, name, defensePoints, healthPoints y su observer
    */
-  protected AbstractCharacter(@NotNull BlockingQueue<ICharacter> turnsQueue,
-                              @NotNull String name, int defensePoints, int healthPoints) {
+  protected AbstractCharacter(@NotNull String name, int defensePoints, int healthPoints) {
     muertes = new PropertyChangeSupport(this);
-    this.turnsQueue = turnsQueue;
     this.name = name;
     if (healthPoints <= 0){
       this.dead = true;
@@ -67,14 +63,6 @@ public abstract class AbstractCharacter implements ICharacter {
     return this.dead;
   }
 
-  /**
-   * Adds this character to the turns queue.
-   */
-  @Override
-  public void addToQueue() {
-    turnsQueue.add(this);
-    scheduledExecutor.shutdown();
-  }
 
   /**
    * Returns this character's defensePoints

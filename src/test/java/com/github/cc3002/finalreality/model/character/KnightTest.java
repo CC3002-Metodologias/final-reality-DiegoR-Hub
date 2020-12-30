@@ -25,7 +25,6 @@ public class KnightTest {
     private WhiteMage testWhiteMage;
     private static final String WHITE_MAGE_NAME = "Eiko";
     private static final String KNIGHT_NAME = "Adelbert";
-    private static final BlockingQueue<com.github.cc3002.finalreality.model.character.ICharacter> turns = null;
     private static final int DAMAGE = 15;
     private static final int WEIGHT = 20;
     private static final int DEFENSE_POINTS = 7;
@@ -42,16 +41,16 @@ public class KnightTest {
 
     @BeforeEach
     void setUp(){
-        testKnight = new Knight(turns,KNIGHT_NAME, DEFENSE_POINTS, HEALTH_POINTS);
-        testKnightDifferentDefensePoints = new Knight(turns, KNIGHT_NAME, DEFENSE_POINTS+1, HEALTH_POINTS);
-        testKnightDifferentHealthPoints = new Knight(turns, KNIGHT_NAME, DEFENSE_POINTS, HEALTH_POINTS+1);
-        testKnightDifferentName = new Knight(turns, "hola", DEFENSE_POINTS, HEALTH_POINTS);
+        testKnight = new Knight(KNIGHT_NAME, DEFENSE_POINTS, HEALTH_POINTS);
+        testKnightDifferentDefensePoints = new Knight( KNIGHT_NAME, DEFENSE_POINTS+1, HEALTH_POINTS);
+        testKnightDifferentHealthPoints = new Knight(KNIGHT_NAME, DEFENSE_POINTS, HEALTH_POINTS+1);
+        testKnightDifferentName = new Knight("hola", DEFENSE_POINTS, HEALTH_POINTS);
         testKnife = new Knife(KNIFE_NAME, DAMAGE,WEIGHT);
         testStaff = new Staff(STAFF_NAME,DAMAGE,WEIGHT,MAGIC_DAMAGE);
         testAxe = new Axe(AXE_NAME, DAMAGE,WEIGHT);
         testSword = new Sword(SWORD_NAME, DAMAGE, WEIGHT);
         testBow = new Bow(BOW_NAME, DAMAGE, WEIGHT);
-        testWhiteMage = new WhiteMage(turns,WHITE_MAGE_NAME, DEFENSE_POINTS, HEALTH_POINTS, MANA);
+        testWhiteMage = new WhiteMage(WHITE_MAGE_NAME, DEFENSE_POINTS, HEALTH_POINTS, MANA);
     }
 
     /**
@@ -59,7 +58,7 @@ public class KnightTest {
      */
     @Test
     void constructorTest(){
-        var expectedKnight= new Knight(turns, KNIGHT_NAME, DEFENSE_POINTS, HEALTH_POINTS);
+        var expectedKnight= new Knight(KNIGHT_NAME, DEFENSE_POINTS, HEALTH_POINTS);
         var prueba = testKnight;
         assertEquals(expectedKnight, testKnight);
         assertEquals(expectedKnight.hashCode(), testKnight.hashCode());

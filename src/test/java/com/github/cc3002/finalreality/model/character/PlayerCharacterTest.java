@@ -40,15 +40,14 @@ public class PlayerCharacterTest {
 
     @BeforeEach
     void setUp() {
-        testEnemyDead = new Enemy(turns, ENEMY_NAME, ENEMY_WEIGHT, DEFENSE_POINTS, 0, ATTACK_POINTS);
-        testEnemy=new Enemy(turns, ENEMY_NAME, ENEMY_WEIGHT, DEFENSE_POINTS, HEALTH_POINTS, ATTACK_POINTS);
-        turns = new LinkedBlockingQueue<>();
+        testEnemyDead = new Enemy(ENEMY_NAME, ENEMY_WEIGHT, DEFENSE_POINTS, 0, ATTACK_POINTS);
+        testEnemy=new Enemy( ENEMY_NAME, ENEMY_WEIGHT, DEFENSE_POINTS, HEALTH_POINTS, ATTACK_POINTS);
         listaPlayerCharacter = new ArrayList<IPlayerCharacter>();
-        testBlackMage = new BlackMage(turns, "cosa", DEFENSE_POINTS, HEALTH_POINTS, MANA);
-        testEngineer = new Engineer(turns, "casa", DEFENSE_POINTS, HEALTH_POINTS);
-        testKnight = new Knight(turns, "peso", DEFENSE_POINTS, HEALTH_POINTS);
-        testThief = new Thief(turns, "ladron", DEFENSE_POINTS, HEALTH_POINTS);
-        testWhiteMage = new WhiteMage(turns, "hola hola", DEFENSE_POINTS, HEALTH_POINTS, MANA);
+        testBlackMage = new BlackMage("cosa", DEFENSE_POINTS, HEALTH_POINTS, MANA);
+        testEngineer = new Engineer( "casa", DEFENSE_POINTS, HEALTH_POINTS);
+        testKnight = new Knight( "peso", DEFENSE_POINTS, HEALTH_POINTS);
+        testThief = new Thief( "ladron", DEFENSE_POINTS, HEALTH_POINTS);
+        testWhiteMage = new WhiteMage( "hola hola", DEFENSE_POINTS, HEALTH_POINTS, MANA);
         listaPlayerCharacter.add(testBlackMage);
         listaPlayerCharacter.add(testWhiteMage);
         listaPlayerCharacter.add(testThief);
@@ -64,7 +63,7 @@ public class PlayerCharacterTest {
         testKnight.equipWeapon(testAxe);
         testEngineer.equipWeapon(testAxe);
         testBlackMage.equipWeapon(testKnife);
-        testEnemyAboutToDie = new Enemy(turns, ENEMY_NAME, ENEMY_WEIGHT, DEFENSE_POINTS, testEngineer.getEquippedWeapon().getDamage() - DEFENSE_POINTS - 1, ATTACK_POINTS);
+        testEnemyAboutToDie = new Enemy( ENEMY_NAME, ENEMY_WEIGHT, DEFENSE_POINTS, testEngineer.getEquippedWeapon().getDamage() - DEFENSE_POINTS - 1, ATTACK_POINTS);
     }
     /***
      * Chequea que un enemigo no pueda atacar a otr enemigo
@@ -84,21 +83,5 @@ public class PlayerCharacterTest {
         assertTrue(testEnemyAboutToDie.isDead());
         assertTrue(testEnemyAboutToDie.getHealthPoints() == 0);
     }
-    @Test
-    void waitTurnTest() {
-        Assertions.assertTrue(turns.isEmpty());
-        listaPlayerCharacter.get(0).waitTurn();
-        try {
-            // Thread.sleep is not accurate so this values may be changed to adjust the
-            // acceptable error margin.
-            // We're testing that the character waits approximately 1 second.
-            Thread.sleep(900);
-            Assertions.assertEquals(0, turns.size());
-            Thread.sleep(200);
-            Assertions.assertEquals(1, turns.size());
-            Assertions.assertEquals(listaPlayerCharacter.get(0), turns.peek());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+
 }

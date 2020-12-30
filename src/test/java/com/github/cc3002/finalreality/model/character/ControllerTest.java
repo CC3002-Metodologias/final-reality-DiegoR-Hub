@@ -13,8 +13,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 public class ControllerTest {
-    //Queue comun para cada ICharacter
-    private LinkedBlockingQueue<ICharacter> turns;
     //Nombre de cada enemy
     private final String ENEMY1_NAME = "Goblin";
     private final String ENEMY2_NAME = "Orco";
@@ -71,23 +69,19 @@ public class ControllerTest {
 
     @BeforeEach
     void setUp() {
-        /**
-         * USAR INDICES EN LISTS Y SOLO CREAR INSTANCIAS EN EL CONTROLLER USANDO LOS CREATORS
-         */
-        turns = new LinkedBlockingQueue<ICharacter>();
         //Instanciandos los player characters
-        testWhiteMage = new WhiteMage(turns, PLAYER_CHARACTER_NAME1, DEFENSE_POINTS, HEALTH_POINTS, MANA);
-        testThief = new Thief(turns, PLAYER_CHARACTER_NAME2, DEFENSE_POINTS, HEALTH_POINTS);
-        testKnight = new Knight(turns, PLAYER_CHARACTER_NAME3, DEFENSE_POINTS, HEALTH_POINTS);
-        testEngineer = new Engineer(turns, PLAYER_CHARACTER_NAME4, DEFENSE_POINTS, HEALTH_POINTS);
-        testBlackMage = new BlackMage(turns, PLAYER_CHARACTER_NAME5, DEFENSE_POINTS, HEALTH_POINTS, MANA);
-        testEngineerAboutToDie = new Engineer(turns, PLAYER_CHARACTER_NAME4, DEFENSE_POINTS, 1);
+        testWhiteMage = new WhiteMage( PLAYER_CHARACTER_NAME1, DEFENSE_POINTS, HEALTH_POINTS, MANA);
+        testThief = new Thief( PLAYER_CHARACTER_NAME2, DEFENSE_POINTS, HEALTH_POINTS);
+        testKnight = new Knight( PLAYER_CHARACTER_NAME3, DEFENSE_POINTS, HEALTH_POINTS);
+        testEngineer = new Engineer( PLAYER_CHARACTER_NAME4, DEFENSE_POINTS, HEALTH_POINTS);
+        testBlackMage = new BlackMage(PLAYER_CHARACTER_NAME5, DEFENSE_POINTS, HEALTH_POINTS, MANA);
+        testEngineerAboutToDie = new Engineer(PLAYER_CHARACTER_NAME4, DEFENSE_POINTS, 1);
         //Instanciando los Enemys
-        testEnemy1 = new Enemy(turns, ENEMY1_NAME, ENEMY_WEIGHT, DEFENSE_POINTS, HEALTH_POINTS, ATTACK_POINTS);
-        testEnemy2 = new Enemy(turns, ENEMY2_NAME, ENEMY_WEIGHT, DEFENSE_POINTS, HEALTH_POINTS, ATTACK_POINTS);
-        testEnemy3 = new Enemy(turns, ENEMY3_NAME, ENEMY_WEIGHT, DEFENSE_POINTS, HEALTH_POINTS, ATTACK_POINTS);
-        testEnemy4 = new Enemy(turns, ENEMY4_NAME, ENEMY_WEIGHT, DEFENSE_POINTS, HEALTH_POINTS, ATTACK_POINTS);
-        testEnemyAboutToDie = new Enemy(turns, ENEMY5_NAME, ENEMY_WEIGHT, DEFENSE_POINTS, 1, ATTACK_POINTS);
+        testEnemy1 = new Enemy(ENEMY1_NAME, ENEMY_WEIGHT, DEFENSE_POINTS, HEALTH_POINTS, ATTACK_POINTS);
+        testEnemy2 = new Enemy(ENEMY2_NAME, ENEMY_WEIGHT, DEFENSE_POINTS, HEALTH_POINTS, ATTACK_POINTS);
+        testEnemy3 = new Enemy(ENEMY3_NAME, ENEMY_WEIGHT, DEFENSE_POINTS, HEALTH_POINTS, ATTACK_POINTS);
+        testEnemy4 = new Enemy( ENEMY4_NAME, ENEMY_WEIGHT, DEFENSE_POINTS, HEALTH_POINTS, ATTACK_POINTS);
+        testEnemyAboutToDie = new Enemy( ENEMY5_NAME, ENEMY_WEIGHT, DEFENSE_POINTS, 1, ATTACK_POINTS);
         //Instanciando las IWeapons
         testAxe = new Axe(AXE_NAME, DAMAGE, WEIGHT);
         testBow = new Bow(BOW_NAME, DAMAGE, WEIGHT);
@@ -96,24 +90,106 @@ public class ControllerTest {
         testSword = new Sword(SWORD_NAME, DAMAGE, WEIGHT);
         //Instanciando el controller
         controller = new Controller(100, 100);
+
     }
 
     @Test
-    void attackTest(){
-        //observer ve que player character mata enemigo
-        controller.createEnemy(testEnemy2.getName(), testEnemy2.getWeight(), testEnemy2.getDefensePoints(), testEnemy2.getHealthPoints(), testEnemy2.getDamage());
-        controller.createEnemy(testEnemyAboutToDie.getName(), testEnemyAboutToDie.getWeight(), testEnemyAboutToDie.getDefensePoints(), testEnemyAboutToDie.getHealthPoints(), testEnemyAboutToDie.getDamage());
-
+    void GameFlowTest() throws InterruptedException {
+        assertTrue(controller.getTurns().isEmpty());
+        //instancias player character en party
+        controller.createEngineer(testEngineer.getName(), testEngineer.getDefensePoints(), testEngineer.getHealthPoints());
         controller.createKnight(testKnight.getName(), testKnight.getDefensePoints(), testKnight.getHealthPoints());
-        controller.createAxe(testAxe.getName(), testAxe.getDamage(), testAxe.getWeight());
-        controller.equipFromInventory(testAxe.getName(), 0);
-        controller.attackAnotherCharacter(controller.getPlayerCharacterInParty(0), testEnemyAboutToDie);
-        //enemy mata player character
-        controller.createEngineer(testEngineerAboutToDie.getName(), testEngineerAboutToDie.getDefensePoints(), testEngineerAboutToDie.getHealthPoints());
+        controller.createThief(testThief.getName(), testThief.getDefensePoints(), testThief.getHealthPoints());
+        controller.createBlackMage(testBlackMage.getName(), testBlackMage.getDefensePoints(), testBlackMage.getHealthPoints(), testBlackMage.getMana());
+        controller.createWhiteMage(testWhiteMage.getName(), testWhiteMage.getDefensePoints(), testWhiteMage.getHealthPoints(), testWhiteMage.getMana());
+        //instancias enemy en lista Enemy
         controller.createEnemy(testEnemy1.getName(), testEnemy1.getWeight(), testEnemy1.getDefensePoints(), testEnemy1.getHealthPoints(), testEnemy1.getDamage());
-        controller.attackAnotherCharacter(controller.getEnemyCharacterInListaEnemy(2),controller.getPlayerCharacterInParty(1));
+        controller.createEnemy(testEnemy2.getName(), testEnemy2.getWeight(), testEnemy2.getDefensePoints(), testEnemy2.getHealthPoints(), testEnemy2.getDamage());
+        controller.createEnemy(testEnemy3.getName(), testEnemy3.getWeight(), testEnemy3.getDefensePoints(), testEnemy3.getHealthPoints(), testEnemy3.getDamage());
+        controller.createEnemy(testEnemy4.getName(), testEnemy4.getWeight(), testEnemy4.getDefensePoints(), testEnemy4.getHealthPoints(), testEnemy4.getDamage());
+        //instancia las armas
+        controller.createAxe(testAxe.getName(), 1, testAxe.getWeight());
+        controller.createAxe(testAxe.getName(), 1, testAxe.getWeight());
+        controller.createStaff(testStaff.getName(), 1, testStaff.getWeight(), testStaff.getmagicDamage());
+        controller.createStaff(testStaff.getName(), 1, testStaff.getWeight(), testStaff.getmagicDamage());
+        controller.createStaff(testStaff.getName(), 1, testStaff.getWeight(), testStaff.getmagicDamage());
+        //equipa armas a cada player character para poder equiparlos
+        controller.equipFromInventory(0,0);
+        controller.equipFromInventory(0,1);
+        controller.equipFromInventory(0,2);
+        controller.equipFromInventory(0,3);
+        controller.equipFromInventory(0,4);
+        //ingresa los character a la turns queue
+        controller.iniciarQueue();
+        assertEquals(8,controller.getTurns().size());
+        assertEquals(testEngineer, controller.getJugadorActual());
+        controller.attackAnotherCharacter(controller.getJugadorActual(),controller.getEnemyCharacterInListaEnemy(0));
+        assertEquals(8,controller.getTurns().size());
+        assertEquals(testKnight, controller.getJugadorActual());
+        controller.attackAnotherCharacter(controller.getJugadorActual(),controller.getEnemyCharacterInListaEnemy(0));
+        assertEquals(8,controller.getTurns().size());
+        assertEquals(testThief, controller.getJugadorActual());
+        controller.attackAnotherCharacter(controller.getJugadorActual(),controller.getEnemyCharacterInListaEnemy(0));
+        assertEquals(8,controller.getTurns().size());
+        assertEquals(testBlackMage, controller.getJugadorActual());
+        controller.attackAnotherCharacter(controller.getJugadorActual(),controller.getEnemyCharacterInListaEnemy(0));
+        assertEquals(8,controller.getTurns().size());
+        assertEquals(testWhiteMage, controller.getJugadorActual());
+        controller.attackAnotherCharacter(controller.getJugadorActual(),controller.getEnemyCharacterInListaEnemy(0));
     }
 
+    /**
+     * Testea el correcto funcionamiento de ataques entre dos instancias de enemy en Lista enemy
+     * COMPROBADO QUE FUNCIONA Y LISTO EL TEST
+     */
+    @Test
+    void attackBetweenEnemies() throws InterruptedException {
+        controller.createEnemy(testEnemy1.getName(), testEnemy1.getWeight(), testEnemy1.getDefensePoints(), testEnemy1.getHealthPoints(), testEnemy1.getDamage());
+        controller.createEnemy(testEnemy2.getName(), testEnemy2.getWeight(), testEnemy2.getDefensePoints(), testEnemy2.getHealthPoints(), testEnemy2.getDamage());
+        int initialEnemyHealthPoints = controller.getListaEnemyMemberHealthPoints(1);
+        controller.attackAnotherCharacter(controller.getEnemyCharacterInListaEnemy(0), controller.getEnemyCharacterInListaEnemy(1));
+        assertEquals(controller.getListaEnemyMemberHealthPoints(1),initialEnemyHealthPoints+controller.getListaEnemyMemberDefensePoints(1)-controller.getListaEnemyMemberAttackPoints(0));
+    }
+    /**
+     * Testea el correcto funcionamiento de ataques entre dos instancias de player character en party
+     * COMPROBADO QUE FUNCIONA Y LISTO EL TEST
+     */
+    @Test
+    void attackBetweenPlayerCharacters() throws InterruptedException {
+        controller.createEngineer(testEngineer.getName(), testEngineer.getDefensePoints(), testEngineer.getHealthPoints());
+        controller.createThief(testThief.getName(), testThief.getDefensePoints(), testThief.getHealthPoints());
+        controller.createAxe(testAxe.getName(), 1, testAxe.getWeight());
+        controller.equipFromInventory(0,0);
+        int initialThiefHealthPoints = controller.getPartyMemberHealthPoints(1);
+        controller.attackAnotherCharacter(controller.getPlayerCharacterInParty(0), controller.getPlayerCharacterInParty(1));
+        assertEquals(controller.getPartyMemberHealthPoints(1), controller.getPartyMemberDefensePoints(1)+initialThiefHealthPoints- controller.getPlayerCharacterInParty(0).getDamage());
+    }
+
+    /**
+     * Testea el correcto ataque entre playerCharacter y Enemy
+     * COMPROBADO QUE FUNCIONA Y LISTO EL TEST
+     */
+    @Test
+    void attackTest() throws InterruptedException {
+        //ataque de player character a enemy
+        controller.createEngineer(testEngineer.getName(), testEngineer.getDefensePoints(), testEngineer.getHealthPoints());
+        controller.createAxe(testAxe.getName(), testAxe.getDamage(), testAxe.getWeight());
+        controller.createEnemy(testEnemy1.getName(), testEnemy1.getWeight(), testEnemy1.getDefensePoints(), testEnemy1.getHealthPoints(), testEnemy1.getDamage());
+        controller.equipFromInventory(0,0);
+        int initialEnemyHealthPoints = controller.getListaEnemyMemberHealthPoints(0);
+        controller.attackAnotherCharacter(controller.getPlayerCharacterInParty(0), controller.getEnemyCharacterInListaEnemy(0));
+        assertEquals(controller.getListaEnemyMemberHealthPoints(0), controller.getListaEnemyMemberDefensePoints(0) + initialEnemyHealthPoints - controller.getPlayerCharacterInParty(0).getDamage());
+        //ataque de enemy a player character
+        int initialPlayerCharacterHealthPoints = controller.getPartyMemberHealthPoints(0);
+        controller.attackAnotherCharacter(controller.getEnemyCharacterInListaEnemy(0), controller.getPlayerCharacterInParty(0));
+        assertEquals(controller.getPartyMemberHealthPoints(0), controller.getPartyMemberDefensePoints(0)+initialPlayerCharacterHealthPoints-controller.getListaEnemyMemberAttackPoints(0));
+    }
+
+    /**
+     * Testea que no se puedan agregar instancias de player character a party cuando esta llena
+     * ni que se puedan agregar instancias de enemy a lista eemy cuando esta llena
+     * COMPROBADO QUE FUNCIONA Y LISTO EL TEST
+     */
     @Test
     void addPlayerCharacterWhenFullPartyFullListaEnemy(){
         Controller controllerChico = new Controller(1,1);
@@ -122,94 +198,161 @@ public class ControllerTest {
         controllerChico.createEnemy(testEnemy2.getName(), testEnemy2.getWeight(), testEnemy2.getDefensePoints(), testEnemy2.getHealthPoints(), testEnemy2.getDamage());
 
         assertFalse(controller.getListaEnemy().size() == 2);
-        //agregar player characters mas alla del maximo
 
+        //agregar player characters mas alla del maximo
         controllerChico.createKnight(testKnight.getName(), testKnight.getDefensePoints(), testKnight.getHealthPoints());
         controllerChico.createThief(testThief.getName(), testThief.getDefensePoints(), testThief.getHealthPoints());
 
         assertFalse(controller.getParty().size() == 2);
     }
+    /**
+     * Testea que instancias de enemy salgan de Lista Enemy al morir
+     * COMPROBADO QUE FUNCIONA Y LISTO EL TEST
+     */
     @Test
-    void attackRandomPlayerCharacter() {
-        controller.createThief(testThief.getName(), testThief.getDefensePoints(), testThief.getHealthPoints());
+    void listaEnemyVaciaAlMorir() throws InterruptedException {
+        controller.createKnight(testKnight.getName(), testKnight.getDefensePoints(), testKnight.getHealthPoints());
+        controller.createAxe(testAxe.getName(), testAxe.getDamage(), testAxe.getWeight());
+        controller.createEnemy(testEnemyAboutToDie.getName(), testEnemyAboutToDie.getWeight(), testEnemyAboutToDie.getDefensePoints(), testEnemyAboutToDie.getHealthPoints(), testEnemyAboutToDie.getDamage());
+        controller.equipFromInventory(0,0);
+        assertFalse(controller.getListaEnemy().isEmpty());
+        controller.attackAnotherCharacter(controller.getPlayerCharacterInParty(0), controller.getEnemyCharacterInListaEnemy(0));
+        assertTrue(controller.getListaEnemy().isEmpty());
+    }
+    /**
+     * Testea que instancias de player character salgan de Party al morir
+     * COMPROBADO QUE FUNCIONA Y LISTO EL TEST
+     */
+    @Test
+    void partyVaciaAlMorir() throws InterruptedException {
         controller.createEngineer(testEngineerAboutToDie.getName(), testEngineerAboutToDie.getDefensePoints(), testEngineerAboutToDie.getHealthPoints());
         controller.createEnemy(testEnemy1.getName(), testEnemy1.getWeight(), testEnemy1.getDefensePoints(), testEnemy1.getHealthPoints(), testEnemy1.getDamage());
-        controller.attackRandomPlayerCharacter(controller.getEnemyCharacterInListaEnemy(0));
-        assertTrue(controller.getPartyMemberHealthPoints(0) != HEALTH_POINTS ||
-                controller.getPartyMemberHealthPoints(1) != 1);
-        controller.attackRandomPlayerCharacter(testEnemy1);
+        assertFalse(controller.getParty().isEmpty());
+        controller.attackAnotherCharacter(controller.getEnemyCharacterInListaEnemy(0),controller.getPlayerCharacterInParty(0));
+        assertTrue(controller.getParty().isEmpty());
     }
 
+    /**
+     * Testea el ataque aleatorio que reliza un enemy sobre la party
+     * COMPROBADO QUE FUNCIONA Y LISTO EL TEST
+     */
     @Test
-    void beginTurnTest() throws InterruptedException {
-        controller.createEnemy(testEnemy1.getName(), testEnemy1.getWeight(), testEnemy1.getDefensePoints(), testEnemy1.getHealthPoints(), testEnemy1.getDamage());
-        controller.createEnemy(testEnemy2.getName(), testEnemy2.getWeight(), testEnemy2.getDefensePoints(), testEnemy2.getHealthPoints(), testEnemy2.getDamage());
-        controller.createEnemy(testEnemy3.getName(), testEnemy3.getWeight(), testEnemy3.getDefensePoints(), testEnemy3.getHealthPoints(), testEnemy3.getDamage());;
-
-        controller.createKnight(testKnight.getName(), testKnight.getDefensePoints(), testKnight.getHealthPoints());
-        controller.createThief(testThief.getName(), testThief.getDefensePoints(), testThief.getHealthPoints());
+    void attackRandomPlayerCharacter() throws InterruptedException {
         controller.createEngineer(testEngineer.getName(), testEngineer.getDefensePoints(), testEngineer.getHealthPoints());
+        controller.createThief(testThief.getName(), testThief.getDefensePoints(), testThief.getHealthPoints());
+        controller.createEnemy(testEnemy1.getName(), testEnemy1.getWeight(), testEnemy1.getDefensePoints(), testEnemy1.getHealthPoints(), 1);
+        assertFalse(controller.getPlayerCharacterInParty(0).getHealthPoints() != testEngineer.getHealthPoints()
+                || controller.getPlayerCharacterInParty(1).getHealthPoints() != testThief.getHealthPoints());
+        controller.attackRandomPlayerCharacter(controller.getEnemyCharacterInListaEnemy(0));
+        assertTrue(controller.getPlayerCharacterInParty(0).getHealthPoints() != testEngineer.getHealthPoints()
+        || controller.getPlayerCharacterInParty(1).getHealthPoints() != testThief.getHealthPoints());
 
-        controller.createStaff(testStaff.getName(), testStaff.getDamage(), testStaff.getWeight(), testStaff.getmagicDamage());
-        controller.createSword(testSword.getName(), testSword.getDamage(), testSword.getWeight());
-        controller.createAxe(testAxe.getName(), testAxe.getDamage(), testAxe.getWeight());
-
-        controller.equipFromInventory(STAFF_NAME, 1);
-        controller.equipFromInventory(SWORD_NAME, 0);
-        controller.equipFromInventory(AXE_NAME, 2);
-        controller.iniciarQueue();
-
-        for (int i = 0; i < 6; i++){
-            controller.beginTurn();
-        }
     }
 
 
+    /**
+     * Testea el caso en que muere el ultimo enemy y gana player character
+     * COMPROBADO QUE FUNCIONA Y LISTO EL TEST
+     */
     @Test
-    void playerCharacterWinsTest(){
+    void playerCharacterWinsTest() throws InterruptedException {
         controller.createKnight(testKnight.getName(), testKnight.getDefensePoints(), testKnight.getHealthPoints());
-        controller.createAxe(testAxe.getName(), testAxe.getDamage(), testAxe.getWeight());
-        controller.equipFromInventory(testAxe.getName(), 0);
         controller.createEnemy(testEnemyAboutToDie.getName(), testEnemyAboutToDie.getWeight(), testEnemyAboutToDie.getDefensePoints(), testEnemyAboutToDie.getHealthPoints(), testEnemyAboutToDie.getDamage());
-        controller.attackAnotherCharacter(controller.getPlayerCharacterInParty(0), controller.getEnemyCharacterInListaEnemy(0));
+        controller.createEnemy(testEnemyAboutToDie.getName(), testEnemyAboutToDie.getWeight(), testEnemyAboutToDie.getDefensePoints(), testEnemyAboutToDie.getHealthPoints(), testEnemyAboutToDie.getDamage());
+        controller.createAxe(testAxe.getName(), testAxe.getDamage(), testAxe.getWeight());
+        controller.equipFromInventory(0,0);
+        controller.attackAnotherCharacter(controller.getPlayerCharacterInParty(0),controller.getEnemyCharacterInListaEnemy(0));
+        assertFalse(controller.isPlayerCharacterWin());
+        controller.attackAnotherCharacter(controller.getPlayerCharacterInParty(0),controller.getEnemyCharacterInListaEnemy(0));
+        assertTrue(controller.isPlayerCharacterWin());
     }
 
+    /**
+     * Testea el caso en que muere el ultimo player character de la party y gana enemy
+     * COMPROBADO QUE FUNCIONA Y LISTO EL TEST
+     */
     @Test
-    void characterGettersTest(){
+    void enemyWinsTest() throws InterruptedException {
+        controller.createEngineer(testEngineerAboutToDie.getName(), testEngineerAboutToDie.getDefensePoints(), testEngineerAboutToDie.getHealthPoints());
+        controller.createEngineer(testEngineerAboutToDie.getName(), testEngineerAboutToDie.getDefensePoints(), testEngineerAboutToDie.getHealthPoints());
         controller.createEnemy(testEnemy1.getName(), testEnemy1.getWeight(), testEnemy1.getDefensePoints(), testEnemy1.getHealthPoints(), testEnemy1.getDamage());
-        assertEquals(testEnemy1.getDamage(),controller.getListaEnemyMemberAttackPoints(0));
-        assertEquals(testEnemy1.getWeight(),controller.getListaEnemyMemberWeight(0));
-        assertEquals(testEnemy1.getDefensePoints(), controller.getListaEnemyMemberDefensePoints(0));
-        assertEquals(testEnemy1.getHealthPoints(), controller.getListaEnemyMemberHealthPoints(0));
-        assertEquals(testEnemy1.getName(), controller.getListaEnemyMemberName(0));
+        controller.attackAnotherCharacter(controller.getEnemyCharacterInListaEnemy(0),controller.getPlayerCharacterInParty(0));
+        assertFalse(controller.isEnemyWin());
+        controller.attackAnotherCharacter(controller.getEnemyCharacterInListaEnemy(0),controller.getPlayerCharacterInParty(0));
+        assertTrue(controller.isEnemyWin());
+    }
 
+    /**
+     * Testea el funcionamiento de la turns queue y el metodo waitTurn
+     * COMPROBADO QUE FUNCIONA Y LISTO EL TEST
+     */
+    @Test
+    void turnsQueueTest() throws InterruptedException {
+        //testea agregar un player character a la turns queue
+        controller.createEngineer(testEngineer.getName(), testEngineer.getDefensePoints(), testEngineer.getHealthPoints());
+        controller.createAxe(testAxe.getName(), testAxe.getDamage(), testAxe.getWeight());
+        controller.equipFromInventory(0,0);
+        assertTrue(controller.getTurns().isEmpty());
+        controller.waitTurn(controller.getPlayerCharacterInParty(0));
+        Thread.sleep(3000);
+        assertEquals(controller.getTurns().size(),1);
+        //chequea quitar el player character de la turns queue, que se retorne correctamente
+        assertEquals(controller.getTurns().poll(),testEngineer);
+        assertEquals(controller.getTurns().size(),0);
+        //chequea agregar un enemy a la turns queue
+        controller.createEnemy(testEnemy1.getName(), testEnemy1.getWeight(), testEnemy1.getDefensePoints(), testEnemy1.getHealthPoints(), testEnemy1.getDamage());
+        controller.waitTurn(controller.getEnemyCharacterInListaEnemy(0));
+        Thread.sleep(3000);
+        assertEquals(controller.getTurns().size(),1);
+        //chequea vaciar la turns queue
+        controller.getTurns().poll();
+        assertTrue(controller.getTurns().isEmpty());
+    }
+
+    /**
+     * Testea los metodos getters aplicados a instancia de player charcater en party
+     * COMPROBADO QUE FUNCIONA Y LISTO EL TEST
+     */
+    @Test
+    void gettersPlayerCharacterTest(){
         controller.createThief(testThief.getName(), testThief.getDefensePoints(), testThief.getHealthPoints());
         controller.createStaff(testStaff.getName(), testStaff.getDamage(), testStaff.getWeight(), testStaff.getmagicDamage());
-
-        controller.equipFromInventory(testStaff.getName(), 0);
+        controller.equipFromInventory(0, 0);
         assertEquals(testThief.getDefensePoints(),controller.getPartyMemberDefensePoints(0));
         assertEquals(testStaff,controller.getPartyMemberEquippedWeapon(0));
         assertEquals(testThief.getHealthPoints(), controller.getPartyMemberHealthPoints(0));
         assertEquals(testThief.getName(), controller.getPartyMemberName(0));
     }
 
+    /**
+     * Testea los metodos getters aplicados a instancia de enemy en Lista Enemy
+     * COMPROBADO QUE FUNCIONA Y LISTO EL TEST
+     */
     @Test
-    void enemyWinsTest(){
-        controller.createEngineer(testEngineerAboutToDie.getName(), testEngineerAboutToDie.getDefensePoints(), testEngineerAboutToDie.getHealthPoints());
+    void gettersEnemyTest(){
         controller.createEnemy(testEnemy1.getName(), testEnemy1.getWeight(), testEnemy1.getDefensePoints(), testEnemy1.getHealthPoints(), testEnemy1.getDamage());
-        controller.attackAnotherCharacter(controller.getEnemyCharacterInListaEnemy(0),controller.getPlayerCharacterInParty(0));
-
+        assertEquals(testEnemy1.getDamage(),controller.getListaEnemyMemberAttackPoints(0));
+        assertEquals(testEnemy1.getWeight(),controller.getListaEnemyMemberWeight(0));
+        assertEquals(testEnemy1.getDefensePoints(), controller.getListaEnemyMemberDefensePoints(0));
+        assertEquals(testEnemy1.getHealthPoints(), controller.getListaEnemyMemberHealthPoints(0));
+        assertEquals(testEnemy1.getName(), controller.getListaEnemyMemberName(0));
     }
 
+    /**
+     * Testea la remocion de instancia de player character de la party dado su indice en ella
+     * COMPROBADO QUE FUNCIONA Y LISTO EL TEST
+     */
     @Test
     void removePlayerCharacterTest(){
         controller.createKnight(testKnight.getName(), testKnight.getDefensePoints(), testKnight.getHealthPoints());
         controller.removePlayerCharacter(0);
         assertTrue(controller.checkPartyIsEmpty());
-
-        //Re
     }
 
+    /**
+     * Testea la remocion de instancia de enemy de la Lista Enemy dado su indice en ella
+     * COMPROBADO QUE FUNCIONA Y LISTO EL TEST
+     */
     @Test
     void removeEnemyTest(){
         controller.createEnemy(testEnemy1.getName(), testEnemy1.getWeight(), testEnemy1.getDefensePoints(), testEnemy1. getHealthPoints(), testEnemy1. getDamage());
@@ -222,41 +365,58 @@ public class ControllerTest {
 
     }
     /**
-     * chequea que con funciones create de cada subclase de player character sea posible crearlos y agregalos a la party
+     * Testea la creacion de instancias de player character en la party
+     * COMPROBADO QUE FUNCIONA Y LISTO EL TEST
      */
     @Test
-    void creatorICharacterTest(){
-        //crear player characters
-        controller.createBlackMage(this.PLAYER_CHARACTER_NAME5, DEFENSE_POINTS, HEALTH_POINTS, MANA);
-        assertEquals(controller.getPlayerCharacterInParty(0), testBlackMage);
-        controller.createWhiteMage(this.PLAYER_CHARACTER_NAME1, DEFENSE_POINTS, HEALTH_POINTS, MANA);
-        assertEquals(controller.getPlayerCharacterInParty(1), testWhiteMage);
-        controller.createEngineer(this.PLAYER_CHARACTER_NAME4, DEFENSE_POINTS, HEALTH_POINTS);
-        assertEquals(controller.getPlayerCharacterInParty(2), testEngineer);
-        controller.createKnight(this.PLAYER_CHARACTER_NAME3, DEFENSE_POINTS, HEALTH_POINTS);
-        assertEquals(controller.getPlayerCharacterInParty(3), testKnight);
-        controller.createThief(this.PLAYER_CHARACTER_NAME2, DEFENSE_POINTS, HEALTH_POINTS);
-        assertEquals(controller.getPlayerCharacterInParty(4), testThief);
-        //crear enemigos
-        controller.createEnemy(testEnemy1.getName(), testEnemy1.getWeight(), testEnemy1.getDefensePoints(), testEnemy1.getHealthPoints(), testEnemy1.getDamage());
-        assertEquals(controller.getEnemyCharacterInListaEnemy(0), testEnemy1);
+    void IPlayerCharacterCreatorTest(){
+        controller.createEngineer(testEngineer.getName(), testEngineer.getDefensePoints(), testEngineer.getHealthPoints());
+        controller.createThief(testThief.getName(), testThief.getDefensePoints(), testThief.getHealthPoints());
+        controller.createKnight(testKnight.getName(), testKnight.getDefensePoints(), testKnight.getHealthPoints());
+        controller.createBlackMage(testBlackMage.getName(), testBlackMage.getDefensePoints(), testBlackMage.getHealthPoints(), testBlackMage.getMana());
+        controller.createWhiteMage(testWhiteMage.getName(), testWhiteMage.getDefensePoints(), testWhiteMage.getHealthPoints(), testWhiteMage.getMana());
+        assertTrue(controller.getParty().contains(testEngineer));
+        assertTrue(controller.getParty().contains(testThief));
+        assertTrue(controller.getParty().contains(testKnight));
+        assertTrue(controller.getParty().contains(testBlackMage));
+        assertTrue(controller.getParty().contains(testWhiteMage));
+    }
 
-    }
+
+    /**
+     * Testea la creacion de armas en el inventario
+     * COMPROBADO QUE FUNCIONA Y LISTO EL TEST
+     */
     @Test
-    void creatorIWeaponTest(){
-        controller.createAxe(AXE_NAME, DAMAGE, WEIGHT);
-        assertTrue(controller.checkWeaponInInventory(AXE_NAME));
-        controller.createBow(BOW_NAME, DAMAGE, WEIGHT);
-        assertTrue(controller.checkWeaponInInventory(BOW_NAME));
-        controller.createKnife(KNIFE_NAME, DAMAGE, WEIGHT);
-        assertTrue(controller.checkWeaponInInventory(KNIFE_NAME));
-        controller.createSword(SWORD_NAME, DAMAGE, WEIGHT);
-        assertTrue(controller.checkWeaponInInventory(SWORD_NAME));
-        controller.createStaff(STAFF_NAME, DAMAGE, WEIGHT, MAGIC_DAMAGE);
-        assertTrue(controller.checkWeaponInInventory(STAFF_NAME));
+    void IWeaponCreatorTest(){
+        controller.createAxe(testAxe.getName(), testAxe.getDamage(), testAxe.getWeight());
+        controller.createStaff(testStaff.getName(), testStaff.getDamage(), testStaff.getWeight(), testStaff.getmagicDamage());
+        controller.createBow(testBow.getName(), testBow.getDamage(), testBow.getWeight());
+        controller.createKnife(testKnife.getName(), testKnife.getDamage(), testKnife.getWeight());
+        controller.createSword(testSword.getName(), testSword.getDamage(), testSword.getWeight());
+        assertEquals(controller.getWeaponFromInventory(0), testAxe);
+        assertEquals(controller.getWeaponFromInventory(1), testStaff);
+        assertEquals(controller.getWeaponFromInventory(2), testBow);
+        assertEquals(controller.getWeaponFromInventory(3), testKnife);
+        assertEquals(controller.getWeaponFromInventory(4), testSword);
+        assertTrue(controller.getInventory().contains(testAxe));
+        assertTrue(controller.getInventory().contains(testStaff));
+        assertTrue(controller.getInventory().contains(testBow));
+        assertTrue(controller.getInventory().contains(testKnife));
+        assertTrue(controller.getInventory().contains(testSword));
+        assertTrue(controller.getInventory().size()==5);
     }
+
     /**
      *
+     * Testea equipar:
+     * arma no equipable a player character sin arma
+     * arma no equipable a player character con arma
+     * arma equipable a player character sin arma
+     * arma equipable a player character con arma
+     *
+     * Testea que arma salga del inventario al ser equipada y retorna al inventario el arma antigua equipada
+     * COMPROBADO QUE FUNCIONA Y LISTO EL TEST
      */
     @Test
     void inventoryUsageTest(){
@@ -264,34 +424,34 @@ public class ControllerTest {
         assertTrue(controller.inventoryIsEmpty());
         //chequear que agrega correctamente un axe, un staff y una sword al inventario
         controller.createAxe(testAxe.getName(), testAxe.getDamage(), testAxe.getWeight());
-        assertTrue(controller.checkWeaponInInventory(testAxe.getName()));
         controller.createSword(testSword.getName(), testSword.getDamage(), testSword.getWeight());
-
-        assertTrue(controller.checkWeaponInInventory(testSword.getName()));
         controller.createStaff(testStaff.getName(), testStaff.getDamage(), testStaff.getWeight(), testStaff.getmagicDamage());
-
-        assertTrue(controller.checkWeaponInInventory(testStaff.getName()));
-
-        //agrega un player character para equipar un arma desde el inventario
+        //agrega un knight para equiparle el axe
         controller.createKnight(testKnight.getName(), testKnight.getDefensePoints(), testKnight.getHealthPoints());
-        //chequea equipar armas a personajes sin armas
-        controller.equipFromInventory(testAxe.getName(), 0);
-        //chequea que el arma equipada ya no este en inventario
-        assertTrue(!controller.checkWeaponInInventory(testAxe.getName()));
-        //chequea que en efecto se haya equipado el arma el player character
+        //intenta equipar un arma inequipable por knight sin arma
+        controller.equipFromInventory(2,0);
+        //chequea que no se haya equipado el arma
+        assertEquals(controller.getPlayerCharacterInParty(0).getEquippedWeapon(), null);
+        //equipa axe testaxe al knight
+        controller.equipFromInventory(0, 0);
+        //chequea correcto equipamiento de testaxe en knight
         assertEquals(controller.getPlayerCharacterInParty(0).getEquippedWeapon(), testAxe);
-
-        //chequea equipar armas a personajes con armas
-        controller.equipFromInventory(testSword.getName(), 0);
-        //chequea que arma antigua de player character ahora este en inventario
-        assertTrue(controller.checkWeaponInInventory(testAxe.getName()));
-        //chequea que arma nueva se haya equipado correctamente
+        //chequea que testaxe haya salido el inventario al equiparse en knight
+        assertFalse(controller.getInventory().contains(testAxe));
+        //chequea equipar armas a personajes con armas, sword al knight
+        controller.equipFromInventory(0, 0);
+        //chequea correcto equipamiento de testsword en knight
         assertEquals(controller.getPlayerCharacterInParty(0).getEquippedWeapon(), testSword);
-        //chequea que arma nueva ya no este en inventario
-        assertTrue(!controller.checkWeaponInInventory(testSword.getName()));
-
+        //chequea que testSword haya salido el inventario al equiparse en knight
+        assertFalse(controller.getInventory().contains(testSword));
+        //chequea que testAxe vuelve al inventario
+        assertTrue(controller.getInventory().contains(testAxe));
         //chequea equipar arma en swap a un player character que no la puede equipar
-        controller.equipFromInventory(testStaff.getName(), 0);
+        controller.equipFromInventory(0, 0);
+        //intenta equipar un arma inequipable por knight con arma
+        controller.equipFromInventory(0,0);
+        //chequea que no se haya equipado el arma inequipable
+        assertNotEquals(controller.getPlayerCharacterInParty(0).getEquippedWeapon(),testStaff);
     }
 
 

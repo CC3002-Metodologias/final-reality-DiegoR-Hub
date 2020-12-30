@@ -24,7 +24,6 @@ public class ThiefTest {
     private Bow testBow;
     private WhiteMage testWhiteMage;
     private static final String THIEF_NAME = "Zidane";
-    private static final BlockingQueue<com.github.cc3002.finalreality.model.character.ICharacter> turns = null;
     private static final int DAMAGE = 15;
     private static final int WEIGHT = 20;
     private static final int DEFENSE_POINTS = 7;
@@ -42,16 +41,16 @@ public class ThiefTest {
 
     @BeforeEach
     void setUp(){
-        testThief=new Thief(turns, THIEF_NAME, DEFENSE_POINTS, HEALTH_POINTS);
-        testThiefDifferentDefensePoints = new Thief(turns, THIEF_NAME, DEFENSE_POINTS+1, HEALTH_POINTS);
-        testThiefDifferentHealthPoints = new Thief(turns, THIEF_NAME, DEFENSE_POINTS, HEALTH_POINTS+1);
-        testThiefDifferentName = new Thief(turns, "hola", DEFENSE_POINTS, HEALTH_POINTS);
+        testThief=new Thief( THIEF_NAME, DEFENSE_POINTS, HEALTH_POINTS);
+        testThiefDifferentDefensePoints = new Thief(THIEF_NAME, DEFENSE_POINTS+1, HEALTH_POINTS);
+        testThiefDifferentHealthPoints = new Thief( THIEF_NAME, DEFENSE_POINTS, HEALTH_POINTS+1);
+        testThiefDifferentName = new Thief( "hola", DEFENSE_POINTS, HEALTH_POINTS);
         testKnife = new Knife(KNIFE_NAME, DAMAGE,WEIGHT);
         testStaff = new Staff(STAFF_NAME,DAMAGE,WEIGHT,MAGIC_DAMAGE);
         testAxe = new Axe(AXE_NAME, DAMAGE,WEIGHT);
         testSword = new Sword(SWORD_NAME, DAMAGE, WEIGHT);
         testBow = new Bow(BOW_NAME, DAMAGE, WEIGHT);
-        testWhiteMage = new WhiteMage(turns,WHITE_MAGE_NAME, DEFENSE_POINTS, HEALTH_POINTS, MANA);
+        testWhiteMage = new WhiteMage(WHITE_MAGE_NAME, DEFENSE_POINTS, HEALTH_POINTS, MANA);
     }
 
     /**
@@ -59,7 +58,7 @@ public class ThiefTest {
      */
     @Test
     void constructorTest(){
-        var expectedThief= new Thief(turns, THIEF_NAME, DEFENSE_POINTS, HEALTH_POINTS);
+        var expectedThief= new Thief( THIEF_NAME, DEFENSE_POINTS, HEALTH_POINTS);
         var prueba = testThief;
         assertEquals(expectedThief, testThief);
         assertEquals(expectedThief.hashCode(), testThief.hashCode());

@@ -15,11 +15,11 @@ import java.util.concurrent.BlockingQueue;
 public class Thief extends AbstractPlayerCharacter {
 
     /**
-     * Creates a new WhiteMage with a turnsQueue, a name, defense points, health points, mana and its observer
+     * Creates a new WhiteMage with a name, defense points, health points, mana and its observer
      *
      */
-    public Thief(@NotNull BlockingQueue<ICharacter> turnsQueue, @NotNull String name, int defensePoints, int healthPoints) {
-        super(turnsQueue, name, defensePoints, healthPoints);
+    public Thief( @NotNull String name, int defensePoints, int healthPoints) {
+        super(name, defensePoints, healthPoints);
     }
 
     @Override

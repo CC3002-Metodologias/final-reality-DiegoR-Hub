@@ -20,7 +20,6 @@ class EngineerTest {
     private Engineer testEngineerDifferentHealthPoints;
     private Engineer testEngineerDifferentDefensePoints;
     private static final String ENGINEER_NAME = "Cid";
-    private static final BlockingQueue<com.github.cc3002.finalreality.model.character.ICharacter> turns = null;
     private static final int DAMAGE = 15;
     private static final int WEIGHT = 20;
     private static final int DEFENSE_POINTS = 7;
@@ -41,16 +40,16 @@ class EngineerTest {
     private Sword testSword;
     @BeforeEach
     void setUp(){
-        testEngineer=new Engineer(turns, ENGINEER_NAME, DEFENSE_POINTS, HEALTH_POINTS);
-        testEngineerDifferentDefensePoints = new Engineer(turns, ENGINEER_NAME, DEFENSE_POINTS+1, HEALTH_POINTS);
-        testEngineerDifferentHealthPoints = new Engineer(turns, ENGINEER_NAME, DEFENSE_POINTS, HEALTH_POINTS+1);
-        testEngineerDifferentName =new Engineer(turns, "hola", DEFENSE_POINTS, HEALTH_POINTS);
+        testEngineer=new Engineer( ENGINEER_NAME, DEFENSE_POINTS, HEALTH_POINTS);
+        testEngineerDifferentDefensePoints = new Engineer( ENGINEER_NAME, DEFENSE_POINTS+1, HEALTH_POINTS);
+        testEngineerDifferentHealthPoints = new Engineer( ENGINEER_NAME, DEFENSE_POINTS, HEALTH_POINTS+1);
+        testEngineerDifferentName =new Engineer( "hola", DEFENSE_POINTS, HEALTH_POINTS);
         testKnife = new Knife(KNIFE_NAME, DAMAGE,WEIGHT);
         testStaff = new Staff(STAFF_NAME,DAMAGE,WEIGHT,MAGIC_DAMAGE);
         testAxe = new Axe(AXE_NAME, DAMAGE,WEIGHT);
         testSword = new Sword(SWORD_NAME, DAMAGE, WEIGHT);
         testBow = new Bow(BOW_NAME, DAMAGE, WEIGHT);
-        testWhiteMage = new WhiteMage(turns,WHITE_MAGE_NAME, DEFENSE_POINTS, HEALTH_POINTS, MANA);
+        testWhiteMage = new WhiteMage(WHITE_MAGE_NAME, DEFENSE_POINTS, HEALTH_POINTS, MANA);
     }
 
     /**
@@ -58,7 +57,7 @@ class EngineerTest {
      */
     @Test
     void constructorTest(){
-        var expectedEngineer= new Engineer(turns, ENGINEER_NAME, DEFENSE_POINTS, HEALTH_POINTS);
+        var expectedEngineer= new Engineer( ENGINEER_NAME, DEFENSE_POINTS, HEALTH_POINTS);
         var prueba = testEngineer;
         assertEquals(expectedEngineer, testEngineer);
         assertEquals(expectedEngineer.hashCode(), testEngineer.hashCode());

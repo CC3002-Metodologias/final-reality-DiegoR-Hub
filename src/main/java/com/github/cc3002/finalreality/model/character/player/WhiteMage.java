@@ -16,11 +16,11 @@ public class WhiteMage extends AbstractPlayerCharacter {
     private int mana;
 
     /**
-     * Creates a new WhiteMage with a turnsQueue, a name, defense points, health points, mana
+     * Creates a new WhiteMage with a  a name, defense points, health points, mana
      *
      */
-    public WhiteMage(@NotNull BlockingQueue<ICharacter> turnsQueue, @NotNull String name, int defensePoints, int healthPoints, int mana) {
-        super(turnsQueue, name, defensePoints, healthPoints);
+    public WhiteMage( @NotNull String name, int defensePoints, int healthPoints, int mana) {
+        super(name, defensePoints, healthPoints);
         this.mana = mana;
     }
 

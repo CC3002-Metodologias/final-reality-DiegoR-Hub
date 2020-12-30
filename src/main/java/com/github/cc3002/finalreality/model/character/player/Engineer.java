@@ -14,8 +14,8 @@ import java.util.concurrent.BlockingQueue;
  */
 public class Engineer extends AbstractPlayerCharacter {
 
-    public Engineer(@NotNull BlockingQueue<ICharacter> turnsQueue, @NotNull String name, int defensePoints, int healthPoints) {
-        super(turnsQueue, name, defensePoints, healthPoints);
+    public Engineer( @NotNull String name, int defensePoints, int healthPoints) {
+        super( name, defensePoints, healthPoints);
     }
 
     /**

@@ -1,12 +1,8 @@
 package com.github.cc3002.finalreality.model.character.player;
 
 import com.github.cc3002.finalreality.model.character.AbstractCharacter;
-import com.github.cc3002.finalreality.model.character.ICharacter;
 import com.github.cc3002.finalreality.model.weapon.IWeapon;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import org.jetbrains.annotations.NotNull;
@@ -34,9 +30,9 @@ public abstract class AbstractPlayerCharacter extends AbstractCharacter implemen
    *
    * Constructor comun para subclases de AbstractPlayerCharacter, sets Queue, name, defensePoints, healthPoints
    */
-  public AbstractPlayerCharacter(@NotNull BlockingQueue<ICharacter> turnsQueue, @NotNull String name, int defensePoints, int healthPoints)
+  public AbstractPlayerCharacter(@NotNull String name, int defensePoints, int healthPoints)
   {
-    super(turnsQueue, name, defensePoints, healthPoints);
+    super(name, defensePoints, healthPoints);
     equippedWeapon=null;
   }
 
@@ -46,16 +42,9 @@ public abstract class AbstractPlayerCharacter extends AbstractCharacter implemen
    */
   public IWeapon getEquippedWeapon() {return this.equippedWeapon;}
 
-
-  /**
-   * Sets a scheduled executor to make this character (thread) wait for {@code speed / 10}
-   * seconds before adding the character to the queue.
-   */
-  public void waitTurn() {
-    scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
-    scheduledExecutor.schedule(this::addToQueue,getEquippedWeapon().getWeight() / 10, TimeUnit.SECONDS);
+  public int getWeight(){
+    return this.getEquippedWeapon().getWeight();
   }
-
 
   /**
    *

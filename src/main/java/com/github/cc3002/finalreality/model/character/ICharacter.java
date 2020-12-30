@@ -17,15 +17,7 @@ public interface ICharacter {
    */
   String getName();
 
-  /**
-   * Adds this character to the turns queue.
-   */
-  void addToQueue();
-
-  /**
-   * Espera el turno de este character
-   */
-  void waitTurn();
+  int getWeight();
 
   /**
    *

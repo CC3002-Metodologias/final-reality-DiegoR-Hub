@@ -27,7 +27,6 @@ public class BlackMageTest {
     private static final int DEFENSE_POINTS = 7;
     private static  final int HEALTH_POINTS = 17;
     private static final String BLACK_MAGE_NAME = "Vivi";
-    private static final BlockingQueue<com.github.cc3002.finalreality.model.character.ICharacter> turns = null;
     private static final String KNIFE_NAME = "Test Knife";
     private static final String STAFF_NAME = "Test Staff";
     private static final String SWORD_NAME = "Test Sword";
@@ -42,17 +41,17 @@ public class BlackMageTest {
     private WhiteMage testWhiteMage;
     @BeforeEach
     void setUp(){
-        testBlackMage=new BlackMage(turns, BLACK_MAGE_NAME, DEFENSE_POINTS, HEALTH_POINTS, MANA);
-        testBlackMageDifferentDefensePoints = new BlackMage(turns, BLACK_MAGE_NAME, DEFENSE_POINTS + 1, HEALTH_POINTS, MANA );
-        testBlackMageDifferentHealthPoints = new BlackMage(turns, BLACK_MAGE_NAME, DEFENSE_POINTS, HEALTH_POINTS +1, MANA);
-        testBlackMageDifferentName = new BlackMage(turns, "hola", DEFENSE_POINTS, HEALTH_POINTS, MANA);
-        testBlackMageDifferentMana = new BlackMage(turns, BLACK_MAGE_NAME, DEFENSE_POINTS, HEALTH_POINTS, MANA+1);
+        testBlackMage=new BlackMage( BLACK_MAGE_NAME, DEFENSE_POINTS, HEALTH_POINTS, MANA);
+        testBlackMageDifferentDefensePoints = new BlackMage(BLACK_MAGE_NAME, DEFENSE_POINTS + 1, HEALTH_POINTS, MANA );
+        testBlackMageDifferentHealthPoints = new BlackMage(BLACK_MAGE_NAME, DEFENSE_POINTS, HEALTH_POINTS +1, MANA);
+        testBlackMageDifferentName = new BlackMage("hola", DEFENSE_POINTS, HEALTH_POINTS, MANA);
+        testBlackMageDifferentMana = new BlackMage(BLACK_MAGE_NAME, DEFENSE_POINTS, HEALTH_POINTS, MANA+1);
         testKnife = new Knife(KNIFE_NAME, DAMAGE,WEIGHT);
         testStaff = new Staff(STAFF_NAME,DAMAGE,WEIGHT,MAGIC_DAMAGE);
         testAxe = new Axe(AXE_NAME, DAMAGE,WEIGHT);
         testSword = new Sword(SWORD_NAME, DAMAGE, WEIGHT);
         testBow = new Bow(BOW_NAME, DAMAGE, WEIGHT);
-        testWhiteMage = new WhiteMage(turns,WHITE_MAGE_NAME, DEFENSE_POINTS, HEALTH_POINTS, MANA);
+        testWhiteMage = new WhiteMage(WHITE_MAGE_NAME, DEFENSE_POINTS, HEALTH_POINTS, MANA);
     }
 
     /**
@@ -60,7 +59,7 @@ public class BlackMageTest {
      */
     @Test
     void constructorTest(){
-        var expectedBlackMage = new BlackMage(turns, BLACK_MAGE_NAME, DEFENSE_POINTS, HEALTH_POINTS, MANA);
+        var expectedBlackMage = new BlackMage(BLACK_MAGE_NAME, DEFENSE_POINTS, HEALTH_POINTS, MANA);
         var prueba = testBlackMage;
         assertEquals(expectedBlackMage, testBlackMage);
         assertEquals(expectedBlackMage.hashCode(), testBlackMage.hashCode());
