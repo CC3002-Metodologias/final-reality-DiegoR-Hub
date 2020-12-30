@@ -1,75 +1,122 @@
 package com.github.cc3002.finalreality.model.character;
 
-import com.github.cc3002.finalreality.model.character.player.CharacterClass;
-import com.github.cc3002.finalreality.model.character.player.PlayerCharacter;
-import com.github.cc3002.finalreality.model.weapon.Weapon;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-import org.jetbrains.annotations.NotNull;
 
+import org.jetbrains.annotations.NotNull;
 /**
  * An abstract class that holds the common behaviour of all the characters in the game.
  *
  * @author Ignacio Slater Muñoz.
- * @author <Your name>
+ * @author Diego Ruiz R.
  */
 public abstract class AbstractCharacter implements ICharacter {
 
-  protected final BlockingQueue<ICharacter> turnsQueue;
-  protected final String name;
-  private final CharacterClass characterClass;
-  private Weapon equippedWeapon = null;
-  private ScheduledExecutorService scheduledExecutor;
+  private final String name;
+  private int defensePoints;
+  private int healthPoints;
+  private boolean dead;
+  private PropertyChangeSupport muertes;
 
-  protected AbstractCharacter(@NotNull BlockingQueue<ICharacter> turnsQueue,
-      @NotNull String name, CharacterClass characterClass) {
-    this.turnsQueue = turnsQueue;
-    this.name = name;
-    this.characterClass = characterClass;
-  }
-
-  @Override
-  public void waitTurn() {
-    scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
-    if (this instanceof PlayerCharacter) {
-      scheduledExecutor
-          .schedule(this::addToQueue, equippedWeapon.getWeight() / 10, TimeUnit.SECONDS);
-    } else {
-      var enemy = (Enemy) this;
-      scheduledExecutor
-          .schedule(this::addToQueue, enemy.getWeight() / 10, TimeUnit.SECONDS);
-    }
+  /**
+   *
+   * Setea que de ahora en adelante este character está muerto
+   */
+  public void setDead(){
+    this.dead = true;
+    muertes.firePropertyChange("death", "", this);
   }
 
   /**
-   * Adds this character to the turns queue.
+   *
+   * Indica a un handler de muertes que observe cuando este character muera
    */
-  private void addToQueue() {
-    turnsQueue.add(this);
-    scheduledExecutor.shutdown();
+  @Override
+  public void addDeathListener(PropertyChangeListener deathHandler) {
+    muertes.addPropertyChangeListener(deathHandler);
   }
 
+  /**
+   *
+   * Constructor comun para subclases de AbstractCharacter, su queue, name, defensePoints, healthPoints y su observer
+   */
+  protected AbstractCharacter(@NotNull String name, int defensePoints, int healthPoints) {
+    muertes = new PropertyChangeSupport(this);
+    this.name = name;
+    if (healthPoints <= 0){
+      this.dead = true;
+    }
+    else{
+      this.dead = false;
+    }
+    this.defensePoints = defensePoints;
+    this.healthPoints = healthPoints;
+  }
+
+  /**
+   *
+   * Retorna boolean, true si este character está muerto
+   */
+  public boolean isDead(){
+    return this.dead;
+  }
+
+
+  /**
+   * Returns this character's defensePoints
+   */
+  public int getDefensePoints(){return this.defensePoints;}
+
+  /**
+   * Returns this character's healthPoints
+   */
+  public int getHealthPoints(){
+    return this.healthPoints;
+  }
+  /**
+   *
+   * Returns this character's name
+   */
   @Override
   public String getName() {
     return name;
   }
 
+  /**
+   *
+   * sets this character's healthPoints
+   */
+  public void setHealthPoints(int healthPoints) {
+    this.healthPoints = healthPoints;
+  }
+
+  /**
+   *
+   * Double dispatch, recibe un ataque de otro character
+   */
   @Override
-  public void equip(Weapon weapon) {
-    if (this instanceof PlayerCharacter) {
-      this.equippedWeapon = weapon;
+  public void attackedBy(ICharacter character) {
+    if (this.isDead()){
+    }
+    else if (character.getDamage()-this.getDefensePoints() >= this.getHealthPoints()){
+      this.setDead();
+      this.setHealthPoints(0);
+    }
+    else{
+      this.setHealthPoints(this.getHealthPoints() - (character.getDamage()-this.getDefensePoints()));
     }
   }
 
+  /**
+   *
+   * Double dispatch, este character ataca a otro character
+   */
   @Override
-  public Weapon getEquippedWeapon() {
-    return equippedWeapon;
-  }
-
-  @Override
-  public CharacterClass getCharacterClass() {
-    return characterClass;
+  public void attack(ICharacter character) {
+    character.attackedBy(this);
   }
 }
+
+
