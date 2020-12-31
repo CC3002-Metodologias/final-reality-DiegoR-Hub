@@ -14,6 +14,11 @@ import java.util.concurrent.LinkedBlockingQueue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+
+/**
+ * CLase que contiene los test asociados a la clase IPlayerCharacter
+ */
+
 public class PlayerCharacterTest {
     private Enemy testEnemy;
     private static final String ENEMY_NAME = "Goblin";

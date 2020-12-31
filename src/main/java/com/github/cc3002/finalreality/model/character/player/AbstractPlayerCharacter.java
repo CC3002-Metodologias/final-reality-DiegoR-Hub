@@ -42,6 +42,9 @@ public abstract class AbstractPlayerCharacter extends AbstractCharacter implemen
    */
   public IWeapon getEquippedWeapon() {return this.equippedWeapon;}
 
+  /**
+   * Getter del peso de este player character
+   */
   public int getWeight(){
     return this.getEquippedWeapon().getWeight();
   }

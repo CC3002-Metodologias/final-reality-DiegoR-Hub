@@ -44,4 +44,25 @@ todas las instancia de listaEnemy indica que gana el jugador
 Si aquella instancia de Party tiene equipada un arma, hace un swap en inventory, sino, solo se la agrega
 * Metodo waitTurnEnemy() y waitTurnPlayerCharacter(), indica a una blocking queue auxiliar si se agrega un Enemy o un IPlayerCharacter a la queue turns, con este metodo se tiene el final de turno
 * Metodo beginTurn(), obtiene el siguiente ICharacter de la queue, gracias a la blocking queue auxiliar sabe si es PlayerCharacter o Enemy. En caso de ser Enemy realiza un ataque aleatorio a una instancia de 
-Party con el metodo attackRandomPlayerCharacter(), sino, espera input del usuario con metodo usersAction() a implementar  
+Party con el metodo attackRandomPlayerCharacter(), sino, espera input del usuario con metodo usersAction() a implementar
+  
+Version Final, Entrega 3
+-------
+* Para EJECUTAR EL PROGRAMA, ejecutar la clase FinalReality dentro del package gui
+Aparece una ventana con los stats del character en turno actual, el numero
+de enemy aun vivos, el numero de player character aun vivos y un string que indica la fase
+del turno en que se encuentra actualmente.
+* Ademas se muestra un boton de siguiente fase, al pulsarlo, si el character en turno actual es un enemy, realiza un
+ataque aleatorio a alguna instancia de la party y se genera el siguiente turno del juego, en cambio si es 
+un player character de party, se va a la siguiente fase, eleccion de armas
+* En la FASE DE ELECCION DE ARMAS se muestra un conjunto de botones con los nombres de las armas actualmente en inventario
+* Al pulsar los botones se intenta equipar aquella arma al jugador en turno actual
+* El equipamiento se puede hacer un numero indefinido y libre de veces
+* Nota: El arma desequipada aparecera en inventario el siguiente turno
+* Con el boton de siguiente fase, se transiciona a la fase de eleccion de target
+* En la FASE DE ELECCION DE TARGET se muestra nuevamente otro conjunto de botones, esta vez con 
+nombre de los enemys en el juego 
+* Al pulsar los botones se elige al correspondiente enemigo como target
+* Al pulsar siguiente fase el jugador actual realiza un ataque al target y se genera el siguiente turno
+* Nota: Las instancias de armas, player character y enemy en juego son un ejemplo tipo de juego de Final Reality,
+modificando el metodo basicSetup() en controller se pueden generar otras configuraciones

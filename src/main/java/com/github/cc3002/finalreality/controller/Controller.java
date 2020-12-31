@@ -1,4 +1,4 @@
-package com.github.cc3002.finalreality.model.controller;
+package com.github.cc3002.finalreality.controller;
 
 import com.github.cc3002.finalreality.model.character.ICharacter;
 import com.github.cc3002.finalreality.model.character.player.*;
@@ -11,12 +11,16 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Clase controlador del MVC de Final Reality
+ */
+
 public class Controller {
 
     private List<Enemy> listaEnemy = new ArrayList<Enemy>();
     private List<IPlayerCharacter> party = new ArrayList<IPlayerCharacter>();
     private List<IWeapon> inventory = new ArrayList<IWeapon>();
-    private ICharacter jugadorActual = new Engineer("Hola", 10, 15);;
+    private ICharacter jugadorActual = new Enemy("Goblin", 10, 10, 20, 10);
     private final PropertyChangeListener PlayerCharacterDeathHandler = new PlayerCharacterDeathHandler(this);
     private final PropertyChangeListener EnemyDeathHandler = new EnemyCharacterDeathHandler(this);
     private int totalPlayerMuertos = 0;
@@ -31,29 +35,103 @@ public class Controller {
     private boolean playerCharacterWin = false;
     private int contador = 0;
     private Phase phase;
+    private Enemy target;
 
 
-
+    /**
+     * Constructor de un controlador, recibe el numero maximo de enemigos y characters que puede tener el player
+     */
     public Controller(int maxPlayerCharacter, int maxEnemy){
         this.maxEnemy = maxEnemy;
         this.maxPlayerCharacter = maxPlayerCharacter;
         //phase con la que parte el juego
         setPhase(new TurnBeginningPhase());
     }
-    //todo hacer metodo basic setup de controller para crear un ejemplo de partida
 
+    /**
+     *
+     * Setup simple de un juego tipo de Final Reality
+     */
+    public void basicSetup() throws InterruptedException {
+        createEngineer("Engineer", 5, 30);
+        createKnight("Knight", 7, 70);
+        createThief("Thief", 3, 40);
+        createEnemy("Goblin", 10, 4, 50, 15);
+        createEnemy("Mateu", 10, 7, 50, 21);
+        //instancia las armas
+        createAxe("axe c++", 16, 20);
+        createAxe("Hacha", 15, 22);
+        createStaff("Staff python", 22, 20, 999);
+        createAxe("axe Vicho", 18, 20);
+        createAxe("Hacha Perro", 15, 22);
+        createStaff("Staff python Valu", 22, 20, 999);
+        //equipa armas a cada player character para poder equiparlos
+        equipFromInventory(0,0);
+        equipFromInventory(0,1);
+        equipFromInventory(0,2);
+        //ingresa los character a la turns queue
+        iniciarQueue();
+    }
+
+    /**
+     * Setup super simple de un juego tipo Final Reality
+     *
+     */
+    public void tooBasicSetup() throws InterruptedException {
+        createEngineer("Engineer", 5, 30);
+        createAxe("axe c++", 16, 20);
+        createAxe("axe c++2", 16, 20);
+        createEnemy("Goblin", 10, 4, 50, 15);
+        equipFromInventory(0,0);
+        iniciarQueue();
+    }
+    /**
+     * Getter del enemy actualmente en target
+     */
+    public Enemy getTargetEnemy() {
+        return this.target;
+    }
+
+    /**
+     * Getter de la turns queue
+     */
     public LinkedBlockingQueue<ICharacter> getTurns(){
         return this.turns;
     }
-
-    public void printParty(){
-        for (IPlayerCharacter playerCharacter : party){
-            System.out.println(playerCharacter);
-        }
+    /**
+     * Getter de la lista de enemigos en juego
+     */
+    public List<Enemy> getListaEnemy(){
+        return  this.listaEnemy;
     }
-    public void printQueue(){
-        System.out.println("este es el tamano de turns: " + turns.size());
-        System.out.println(turns);
+
+    /**
+     * Getter de la party en juego
+     */
+    public List<IPlayerCharacter> getParty(){
+        return  this.party;
+    }
+
+    /**
+     * Getter del inventario del juego
+     */
+    public List<IWeapon> getInventory() {
+        return this.inventory;
+    }
+
+    /**
+     * Getter del jugador en turno actual
+     */
+    public ICharacter getJugadorActual(){
+        return  this.jugadorActual;
+    }
+
+    /**
+     * Getter del estado actual en que se encuentra el turno
+     *
+     */
+    public Phase getPhase() {
+        return phase;
     }
 
     /**
@@ -70,13 +148,17 @@ public class Controller {
         }
         jugadorActual = turns.poll();
     }
+
+    /**
+     * Ingresa el jugador en turno actual a la turns queue
+     */
     public void addToQueue(){
         turns.add(this.jugadorActual);
         scheduledExecutor.shutdown();
     }
 
     /**
-     * ingresa un ICharacter a la Blocking queue de turnos
+     * ingresa un ICharacter a la Blocking queue de turnos y ejecuta un scheduledExecutor
      */
     public void waitTurn(ICharacter character){
         this.jugadorActual = character;
@@ -84,21 +166,7 @@ public class Controller {
         scheduledExecutor.schedule(this::addToQueue, character.getWeight()/10, TimeUnit.SECONDS);
     }
 
-    public List<Enemy> getListaEnemy(){
-        return  this.listaEnemy;
-    }
 
-    public List<IPlayerCharacter> getParty(){
-        return  this.party;
-    }
-
-    public List<IWeapon> getInventory() {
-        return this.inventory;
-    }
-
-    public ICharacter getJugadorActual(){
-        return  this.jugadorActual;
-    }
     /**
      * Dados los argumentos del constructor de WhiteMage, ingresa un nuevo WhiteMage a la party
      */
@@ -222,29 +290,11 @@ public class Controller {
     /**
      *
      * Metodo auxiliar de metodo swapWeaponWithPlayerCharacter
-     * Remueve un arma de Inventory dada su llave
+     * Remueve un arma de Inventory dado su indice en la lista Inventario
      */
     private void removeFromInventory(int weaponIndex){
             this.inventory.remove(weaponIndex);
     }
-
-    /**
-     *
-     * Metodo auxiliar de metodo swapWeaponWithPlayerCharacter y putWeaponToPlayerCharacter
-     * Getter de arma de Inventory dada su llave
-     */
-    public IWeapon getWeaponFromInventory(int weaponindex){
-        return this.inventory.get(weaponindex);
-    }
-
-    /**
-     * Metodo para testing, chequea si el inventario esta vacio
-     */
-    public boolean inventoryIsEmpty(){
-        return this.inventory.isEmpty();
-    }
-
-
     /**
      *
      * Remueve una instancia IPlayerCharacter de Party dado su indice en ella
@@ -252,8 +302,6 @@ public class Controller {
     public void removePlayerCharacter(int playerCharacterIndex){
         party.remove(playerCharacterIndex);
     }
-
-
 
     /**
      *
@@ -266,8 +314,34 @@ public class Controller {
 
     /**
      *
-     * Dada una IWeapon de Inventory determinada por su llave y un IPlayerCharacter de Party dado  indice en ella,
-     * equipa esta IWeapon a ese IPlayerCharacter si este es capaz de equiparla
+     * Metodo auxiliar de metodo swapWeaponWithPlayerCharacter y putWeaponToPlayerCharacter
+     * Getter de arma de Inventory dado su indice en a lista Inventario
+     */
+    public IWeapon getWeaponFromInventory(int weaponindex){
+        return this.inventory.get(weaponindex);
+    }
+
+
+    /**
+     * Dado el indice de un player character en la party, lo retorna
+     *
+     */
+    public IPlayerCharacter getPlayerCharacterInParty(int index) {
+        return this.party.get(index);
+    }
+
+
+    /**
+     * Dado el indice de un enemy en la lista Enemy, lo retorna
+     */
+    public Enemy getEnemyCharacterInListaEnemy(int index){
+        return this.listaEnemy.get(index);
+    }
+
+    /**
+     *
+     * Dado el indice de un arma en Inventory y el indice de un player character en Party,
+     * equipa esa arma a ese player character si este es capaz de equiparla
      */
     public void equipFromInventory(int weaponIndex, int playerCharacterindex){
         if (this.party.get(playerCharacterindex).getEquippedWeapon() == null){
@@ -280,7 +354,8 @@ public class Controller {
 
     /**
      * Metodo auxiliar de equipFromInventory
-     * Permite equipar un arma del inventario a un character del jugador que no tiene un arma equipada actualmente
+     * Permite equipar un arma del inventario a un character del player character que no tiene un
+     * arma equipada actualmente
      */
     private void putWeaponToPlayerCharacter(int weaponIndex, int playerCharacterIndex){
         getPlayerCharacterInParty(playerCharacterIndex).equipWeapon(getWeaponFromInventory(weaponIndex));
@@ -295,7 +370,7 @@ public class Controller {
 
     /**
      * Metodo auxiliar de equipFromInventory
-     *  Permite equipar un arma del inventario a un character del jugador que ya tiene equipada un arma actualmente
+     *  Permite equipar un arma del inventario a un player character que ya tiene equipada un arma actualmente
      */
     private void swapWeaponWithPlayerCharacter(int weaponIndex, int playerCharacterIndex){
         IWeapon playerPreviousWeapon = getPlayerCharacterInParty(playerCharacterIndex).getEquippedWeapon();
@@ -307,24 +382,38 @@ public class Controller {
     }
 
     /**
-     * todos los ataques pasan por este metodo
-     * Dado un ICharacter definido atacante y un character definido defensor genera un ataque del atacante hacia el defensor
+     *
+     * Dado un character definido atacante y un character definido defensor genera un ataque
+     * del atacante hacia el defensor
      */
-    public void attackAnotherCharacter(ICharacter characteratk, ICharacter characterdef){
+    public void attackAnotherCharacter(ICharacter characteratk, ICharacter characterdef) throws InterruptedException {
         characteratk.attack(characterdef);
         //ingresamos nuevamente el jugador actual a la turns queue
         if (party.contains(characteratk)){
             this.waitTurn(this.getPlayerCharacterInParty(party.indexOf(characteratk)));
+            Thread.sleep(3000);
+            jugadorActual = turns.poll();
         }
         //caso que es enemigo, metodo usado en attackrandom player character
         else{
             this.waitTurn(this.getEnemyCharacterInListaEnemy(listaEnemy.indexOf(characteratk)));
+            Thread.sleep(3000);
+            jugadorActual = turns.poll();
         }
-
     }
     /**
-     * Metodo asociado al Listener, imprime el nombre de cada character del jugador cuando muere
-     * Adicionalmente, si han muerto todos los character de a party, imprime que han ganado los enemigos
+     *
+     * Recibe un character, luego genera un ataque de este hacia un player character aleatorio de la party
+     */
+    public void attackRandomPlayerCharacter(ICharacter characteratk) throws InterruptedException {
+        int randomPlayerCharacterIndex = new Random().nextInt(this.party.size());
+        IPlayerCharacter randomPlayerCharacter = this.getPlayerCharacterInParty(randomPlayerCharacterIndex);
+        this.attackAnotherCharacter(characteratk, randomPlayerCharacter);
+    }
+
+    /**
+     * Metodo asociado al Listener, imprime el nombre de cada player character cuando muere
+     * Adicionalmente, si han muerto todos los player character de la party, indica que han ganado los enemy
      */
     public void PlayerCharacterDeath(IPlayerCharacter playerCharacter){
         System.out.println("Un Player Character ha muerto: " + playerCharacter.getName());
@@ -334,8 +423,8 @@ public class Controller {
     }
 
     /**
-     * Metodo asociado al Listener, imprime el nombre de cada enemigo cuando muere
-     * Adicionalmente, si han muerto todos los enemigos, imprime que ha ganado el jugador
+     * Metodo asociado al Listener, imprime el nombre de cada enemy cuando muere
+     * Adicionalmente, si han muerto todos los enemy, indica que ha ganado el jugador
      */
     public void EnemyDeath(Enemy enemy){
         System.out.println("Un Enemy ha muerto: " + enemy.getName());
@@ -346,23 +435,6 @@ public class Controller {
     }
 
 
-    /**
-     *
-     * Recibe un character, quien genera un ataque a un character del playerCharacter en el party aleatorio
-     */
-    public void attackRandomPlayerCharacter(ICharacter characteratk){
-        int randomPlayerCharacterIndex = new Random().nextInt(this.party.size());
-        IPlayerCharacter randomPlayerCharacter = this.getPlayerCharacterInParty(randomPlayerCharacterIndex);
-        this.attackAnotherCharacter(characteratk, randomPlayerCharacter);
-    }
-
-    /**
-     * Metodo para interactuar con el usuario durante su turno
-     * Cuando usuario ataque, sale de este metodo, sino, se mantiene dentro
-     */
-    public void usersAction(){
-        return;
-    }
     /**
      *
      * getter para los puntos de vida de un player character en juego dado su indice en la party
@@ -429,7 +501,15 @@ public class Controller {
     }
 
     /**
-     * chequea si no hay enemigos en el juego
+     * Metodo para testing, chequea si el inventario esta vacio
+     */
+    public boolean inventoryIsEmpty(){
+        return this.inventory.isEmpty();
+    }
+
+
+    /**
+     * Metodo de testing, chequea si la lista de enemigos esta vacia
      */
     public boolean checkListaEnemyIsEmpty() {
         return this.listaEnemy.isEmpty();
@@ -437,41 +517,31 @@ public class Controller {
 
     /**
      *
-     * chequea si no hay characters del player en juego
+     * Metodo de testing, chequea si la party esta vacia
      */
     public boolean checkPartyIsEmpty() {
         return this.party.isEmpty();
     }
 
 
-    public IPlayerCharacter getPlayerCharacterInParty(int index) {
-        return this.party.get(index);
-    }
-
-    public Enemy getEnemyCharacterInListaEnemy(int index){
-        return this.listaEnemy.get(index);
-    }
-
+    /**
+     * chequea si han ganado los enemy
+     */
     public boolean isEnemyWin() {
         return enemyWin;
     }
 
+    /**
+     * Chequea si ha ganado el jugador
+     */
     public boolean isPlayerCharacterWin() {
         return playerCharacterWin;
     }
 
-    public void imprimirPrueba() {
-        System.out.println(this.contador);
-    }
-
-    public void aumentarContador(){
-        this.contador++;
-    }
-
-    public int getContador(){
-        return this.contador;
-    }
-
+    /**
+     * Setea el estado actual del turno en que se encuentra el controlador
+     *
+     */
     public void setPhase(Phase phase) {
         //setea la fase actual en que se encuentra el juego
         this.phase = phase;
@@ -479,12 +549,30 @@ public class Controller {
         phase.setController(this);
     }
 
-    public void nextPhase() throws InterruptedException {
-        phase.nextPhase();
+
+    /**
+     * Metodo para el Observer, quita a un player character de la turns queue cuando este muere
+     *
+     */
+    public void removePlayerCharacterFromTurnsQueue(IPlayerCharacter playerCharacter) {
+        turns.remove(playerCharacter);
     }
 
-    public Phase getPhase() {
-        return phase;
+    /**
+     * Metodo para el Observer, quita a un enemy de la lista Enemy cuando este muere
+     *
+     */
+    public void removeEnemyCharacterFromTurnsQueue(Enemy enemy) {
+        turns.remove(enemy);
     }
+
+    /**
+     * Metodo para la fase de target Enemy, dado un enemy, lo fija como target del siguiente ataque
+     *
+     */
+    public void targetEnemy(Enemy enemy) {
+        this.target = enemy;
+    }
+
 
 }

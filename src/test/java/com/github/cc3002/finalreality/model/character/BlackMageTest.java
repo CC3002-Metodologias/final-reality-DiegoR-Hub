@@ -11,8 +11,7 @@ import java.util.concurrent.BlockingQueue;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Abstract class containing the tests for the BlackMages.
- *
+ * CLase que contiene los test asociados a la clase BlackMage
  */
 public class BlackMageTest {
     private BlackMage testBlackMage;

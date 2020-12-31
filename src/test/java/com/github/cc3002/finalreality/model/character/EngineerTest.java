@@ -10,10 +10,10 @@ import java.util.concurrent.BlockingQueue;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 /**
-     * Abstract class containing the tests for the Engineer.
-     *
-     */
+ * CLase que contiene los test asociados a la clase Engineer
+ */
 class EngineerTest {
     private Engineer testEngineer;
     private Engineer testEngineerDifferentName;
@@ -38,6 +38,7 @@ class EngineerTest {
     private Staff testStaff;
     private Knife testKnife;
     private Sword testSword;
+
     @BeforeEach
     void setUp(){
         testEngineer=new Engineer( ENGINEER_NAME, DEFENSE_POINTS, HEALTH_POINTS);

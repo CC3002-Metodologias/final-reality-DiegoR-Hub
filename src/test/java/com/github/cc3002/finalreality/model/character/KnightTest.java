@@ -11,9 +11,8 @@ import java.util.concurrent.BlockingQueue;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
-     * Abstract class containing the tests for the Knight.
-     *
-     */
+ * CLase que contiene los test asociados a la clase Knight
+ */
 public class KnightTest {
     private Knight testKnight;
     private  Knight testKnightDifferentName;

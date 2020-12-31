@@ -7,9 +7,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
-     * Abstract class containing the tests for the Staff.
-     *
-     */
+ * CLase que contiene los test asociados a la clase Staff
+ */
 public class StaffTest {
     private  static final int MAGIC_DAMAGE=10;
     private static final int DAMAGE = 15;

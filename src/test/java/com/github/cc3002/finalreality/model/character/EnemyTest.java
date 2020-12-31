@@ -16,9 +16,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
-     * Abstract class containing the tests for the Enemy.
-     *
-     */
+ * CLase que contiene los test asociados a la clase Enemy
+ */
 public class EnemyTest {
     private static final String ENEMY_NAME = "Goblin";
     private static final int ENEMY_WEIGHT = 11;

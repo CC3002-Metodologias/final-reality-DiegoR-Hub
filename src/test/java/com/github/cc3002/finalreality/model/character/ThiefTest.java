@@ -11,9 +11,9 @@ import java.util.concurrent.BlockingQueue;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
-     * Abstract class containing the tests for the Thief.
-     *
-     */
+ /**
+ * CLase que contiene los test asociados a la clase Thief
+ */
 public class ThiefTest {
     private Thief testThief;
     private  Thief testThiefDifferentName;

@@ -6,9 +6,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
-     * Abstract class containing the tests for the Axe.
-     *
-     */
+ * CLase que contiene los test asociados a la clase Axe
+ */
 public class AxeTest {
     private static final int DAMAGE = 15;
     private static final int WEIGHT = 20;

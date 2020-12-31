@@ -1,126 +1,182 @@
 package com.github.cc3002.finalreality.gui;
 
-import com.github.cc3002.finalreality.model.controller.Controller;
+import com.github.cc3002.finalreality.controller.Controller;
+import com.github.cc3002.finalreality.model.character.player.Enemy;
+import com.github.cc3002.finalreality.model.character.player.IPlayerCharacter;
+import com.github.cc3002.finalreality.model.weapon.IWeapon;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Main entry point for the application.
- * <p>
- * <Complete here with the details of the implemented application>
+ * Permanente: indica los stats del character en turno actual, la cantidad de player character vivos
+ * la cantidad de enemy vivos
+ * Variante: Se compone de 3 fases, inicio, equipamiento de armas y ataque, cada una cambia
+ * los botones, su cantidad, nombre y funcionalidad. Estos se encuentran en la parte derecha de la
+ * Stage
  *
  * @author Ignacio Slater Muñoz.
- * @author <Your name>
+ * @author Diego Ruiz R.
  */
 public class FinalReality extends Application {
   //gui muestra el estado actual del controller, asi que crea uno y bajo el se basa el juego
   //Notas grales: queremos que controlador esconda el modelo, no trabajar con clases del modelo, ni en listas ni en nada
   //trabajar en cambio con enteros, strings, etc
   Controller controller = new Controller(100,100);
-  //dejamos como atributos los nodos vacios que queramos mutar constantemente
-  //en el futuro los cambiamos con sus metodos setters
-  Label contadorLabel = new Label();
+  Label nombreActual = new Label();
+  Label vidaActual = new Label();
+  Label defensaActual = new Label();
+  Label ataqueActual = new Label();
   Label phaseActualLabel = new Label();
+  Label cantidadEnemyVivo = new Label();
+  Label cantidadPlayerCharacterVivo = new Label();
+  Group buttonGroup = new Group();
+  List<String> nombresButtons = new ArrayList<String>();
+  Group endSceneGroup = new Group();
+  Scene endGameScene;
+  Stage principalStage;
+
 
   public static void main(String[] args) {
     launch(args);
   }
 
   @Override
-  public void start(Stage primaryStage) {
-    //timer para el refresco de pantalla
-    setupTimer();
-    //le pone titulo a la ventana
-    primaryStage.setTitle("Prueba de JavaFX");
-    //tamano de la ventana puede ser problematico ya que habria que redefinir tamano de los componentes
-    primaryStage.setResizable(false);
-    //hacemos nodo padre del scene graph usando group, hay varias formas group es simple,
-    // cuidado con import group que no sea swing
-    //aparte de group esta label,horizontalbox o verticalbox que tienen layout a diferencia de group que no lo tiene
-    //los anteriores tambien son nodos
+  public void start(Stage primaryStage) throws InterruptedException {
+    //definicion de endGameScene
+    this.endGameScene = new Scene(this.endSceneGroup, 800,600);
+
+    principalStage = primaryStage;
+    controller.basicSetup();
+    principalStage.setTitle("Final Reality");
+    principalStage.setResizable(false);
+    //nodo padre
     Group root = new Group();
-    //creamos la escena a partir del scene graph pasandole el nodo padre de todos
+    //escena
     Scene scene = new Scene(root, 800, 600);
-    //podemos agregar hijos en el orden que queramos, la cosa es que esten antes de show y que e padre exista previamente
-    //label, un texto en pantalla, tambien es un nodo
-    Label label = new Label("Prueba de label");
-    //definimos posicion del label en x e y donde parte la primera letra
-    //modificaciones antes de agregarlos al scene graph
-    label.setLayoutX(400);
-    label.setLayoutY(300);
-    //otro label
-    Label label2 = new Label("Otro label");
-    //modificacion de la posicion
-    label2.setLayoutX(400);
-    label2.setLayoutY(310);
-    //simplemente lo hacemos hijo del nodo padre de el scene graph
-    root.getChildren().add(label2);
-    //lo asignamos como hijo del nodo padre del scene graph
-    root.getChildren().add(label);
-    //asignamos la escena a la ventana(stage), cada stage puede tener una sola escena(scene)
-    //podemos hacer que muestre dos escena creando otro scene graph e intercambiar el setScene
-    primaryStage.setScene(scene);
+    //definimos las posiciones de los label del character actual
+    nombreActual.setLayoutX(25);
+    nombreActual.setLayoutY(250);
+    vidaActual.setLayoutX(25);
+    vidaActual.setLayoutY(275);
+    defensaActual.setLayoutX(25);
+    defensaActual.setLayoutY(300);
+    ataqueActual.setLayoutX(25);
+    ataqueActual.setLayoutY(325);
+    cantidadPlayerCharacterVivo.setLayoutY(20);
+    cantidadEnemyVivo.setLayoutY(40);
 
-    //definimos un boton, otro nodo del scene graph
-    Button button1 = new Button("Imprimir la cuenta");
-    //posicionamiento del boton igual que cualquier nodo
-    button1.setLayoutX(100);
-    button1.setLayoutY(100);
-    //definimos accion del boton, siempre es setOnAction(new... se autocompleta
-    button1.setOnAction(event -> controller.imprimirPrueba());
-    //lo agregamos al scene graph
-    root.getChildren().add(button1);
-
-    Button buttonAumentador = new Button("Aumentar la cuenta");
-    buttonAumentador.setLayoutX(700);
-    buttonAumentador.setLayoutY(400);
-    buttonAumentador.setOnAction(event -> controller.aumentarContador());
-    root.getChildren().add(buttonAumentador);
-    //otro boton para cambiar de phase
-    Button buttonCambioPhase = new Button("Siguiente phase");
-    buttonAumentador.setLayoutX(800);
-    buttonAumentador.setLayoutY(600);
-    buttonAumentador.setOnAction(event -> controller.aumentarContador());
-    root.getChildren().add(buttonAumentador);
-
-
-    //ingresamos al scene graph las label variables
-    contadorLabel.setLayoutX(100);
-    contadorLabel.setLayoutY(20);
-    root.getChildren().add(contadorLabel);
+    //ingreamos los nodos al scene graph
+    root.getChildren().add(nombreActual);
+    root.getChildren().add(vidaActual);
+    root.getChildren().add(defensaActual);
+    root.getChildren().add(ataqueActual);
     root.getChildren().add(phaseActualLabel);
+    root.getChildren().add(cantidadPlayerCharacterVivo);
+    root.getChildren().add(cantidadEnemyVivo);
+
+    //Lista con los nombres de los botones en la fase actual
+    this.nombresButtons = controller.getPhase().nombreBotones();
+    //Crea los botones a partir de la lista de nombres de botones
+    //this.setterNombreBotones(this.nombresButtons, this.buttonGroup);
+    //agrega los botones al nodo root
+    root.getChildren().add(buttonGroup);
+
+
+    //Crea boton para pasar a la siguiente fase y lo agrega a root
+    Button buttonCambioPhase = new Button("next phase");
+    buttonCambioPhase.setLayoutX(75);
+    buttonCambioPhase.setLayoutY(500);
+    buttonCambioPhase.setOnAction(event -> {
+      try {
+        controller.getPhase().nextPhase();
+        nombresButtons = controller.getPhase().nombreBotones();
+        this.setterNombreBotones(this.nombresButtons, this.buttonGroup);
+
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+    });
+    root.getChildren().add(buttonCambioPhase);
+
+
+
+  //timer para el refresco de pantalla
+    setupTimer();
+    //asignamos el scene graph al stage
+    principalStage.setScene(scene);
 
     //muestra la ventada, se hace al final
-    primaryStage.show();
+    principalStage.show();
 
   }
 
   /**
-   * metodo para la actualizacion de la imagen en ventana
-   * aca setteamos los nodos atributos
-   * recomendaciones, dejar como atributos clase los nodos modificables, ver atributos arriba
-   * metodo para animation timer, usa Animation Timer de java fx
+   * Metodo que designa los nombres a los botones
+   */
+  public void setterNombreBotones(List<String> listaNombreBotones, Group buttons ){
+    buttons.getChildren().clear();
+    int posx = 300;
+    int posy = 100;
+    for (String nombreButton : listaNombreBotones){
+      Button boton = new Button(nombreButton);
+      boton.setLayoutX(posx);
+      boton.setLayoutY(posy);
+      boton.setOnAction(event -> controller.getPhase().action(nombreButton));
+      buttons.getChildren().add(boton);
+      if (posx == 700){
+        posy = 100;
+        posx += 200;
+      }
+      else{
+        posy+= 100;
+      }
+    }
+  }
+
+  /**
+   * Metodo para el refresco de imagen en la Stage
+   * actualiza los stats del jugador en turno actual, la cantidad de enemy vivos, la cantidad de
+   * player character vivos y los botones segun la fase en que se encuentra el turno/juego
+   * Ademas genera una stage en caso que los enemy ganen o los player character ganen indicando su
+   * victoria
+   *
    */
   private void setupTimer(){
     AnimationTimer timer = new AnimationTimer() {
       @Override
       public void handle(long now) {
-        contadorLabel.setText("Contador actual: " + controller.getContador());
-        phaseActualLabel.setText("Phase actual: " + controller.getPhase().toString());
+        if(controller.isEnemyWin()){
+          Label gameEndLabel = new Label("GANAN LOS ENEMIGOS");
+          gameEndLabel.setLayoutX(250);
+          gameEndLabel.setLayoutY(400);
+          endSceneGroup.getChildren().add(gameEndLabel);
+          principalStage.setScene(endGameScene);
+        }
+        else if(controller.isPlayerCharacterWin()){
+          Label gameEndLabel = new Label("GANAN LOS PLAYER CHARACTER");
+          gameEndLabel.setLayoutX(250);
+          gameEndLabel.setLayoutY(400);
+          endSceneGroup.getChildren().add(gameEndLabel);
+          principalStage.setScene(endGameScene);
+        }
+        else {
+          phaseActualLabel.setText("Phase actual: " + controller.getPhase().printPhase());
+          cantidadEnemyVivo.setText("Enemigos vivos restantes: " + String.valueOf(controller.getListaEnemy().size()));
+          cantidadPlayerCharacterVivo.setText("Player character vivos restantes: " + String.valueOf(controller.getParty().size()));
+          nombreActual.setText("Nombre del jugador actual: " + controller.getJugadorActual().getName());
+          vidaActual.setText("Vida de jugador actual: " + controller.getJugadorActual().getHealthPoints());
+          defensaActual.setText("Defensa del jugador actual: " + controller.getJugadorActual().getDefensePoints());
+          ataqueActual.setText("Ataque del jugador actual: " + controller.getJugadorActual().getDamage());
+        }
       }
     };
     //con esto si se actualiza la vista

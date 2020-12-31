@@ -7,9 +7,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
-     * Abstract class containing the tests for the Bow
-     *
-     */
+ * CLase que contiene los test asociados a la clase Bow
+ */
 public class BowTest {
     private static final int DAMAGE = 15;
     private static final int WEIGHT = 20;
