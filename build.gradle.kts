@@ -1,5 +1,8 @@
 @file:Suppress("SpellCheckingInspection")
 
+/**
+ * lenguajes a usar
+ */
 plugins {
     java
     id("application")
@@ -14,10 +17,16 @@ application {
 group = "com.github.cc3002"
 version = "1.0-RELEASE"
 
+/**
+ * Donde obtiene las librerias a descargar y usar
+ */
 repositories {
     mavenCentral()
 }
-
+/**
+ * ahora se usa implementation en vez de compile
+ * se importan las anotaciones de jetbrains y javafx
+ */
 dependencies {
     implementation(group = "org.openjfx", name = "javafx", version = "14-ea+6", ext = "pom")
     implementation("org.jetbrains:annotations:19.0.0")
